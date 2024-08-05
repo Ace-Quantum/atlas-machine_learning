@@ -1,0 +1,7 @@
+factorial_result = 1
+for i in range(1, k + 1):
+    factorial_result *= i
+exponent_result = np.exp(-self.lambtha)
+cdf_value = 0
+for i in range(k + 1):
+    cdf_value += exponent_result * (self.lambtha**i) / factorial_result
