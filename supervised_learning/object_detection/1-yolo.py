@@ -55,3 +55,8 @@ class Yolo:
 
                         current_box_class_probs[r, c, a] = class_probs
 
+            boxes.append(current_boxes)
+            box_confidences.append(current_box_confidences)
+            box_class_probs.append(current_box_class_probs)
+
+        return boxes, box_confidences, box_class_probs
