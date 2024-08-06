@@ -3,6 +3,7 @@
 """Set up for the Yolo Model"""
 
 from tensorflow import keras as K
+import numpy as np
 
 
 def load_class_names(filepath):
@@ -25,3 +26,32 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
+        image_height, image_width = image_size
+
+        boxes = []
+        box_confidences = []
+        box_class_probs = []
+
+        for output in outputs:
+            grid_height, grid_width, num_anchors = output.shape[:3]
+
+            current_boxes = np.zeros((grid_height, grid_width, num_anchors, 4))
+            current_box_confidences = np.zeros((grid_height, grid_width, num_anchors, 1))
+            current_box_class_probs = np.zeros((grid_height, grid_width, num_anchors, output.shape[3] - 5))
+
+            for r in range(grid_height):
+                for c in range(grid_width):
+                    for a in range(num_anchors):
+                        tx, ty, tw, th, conf, *class_probs = output[r, c, a]
+
+                        x1 = (tx * image_width / grid_width) - (tw / 2)
+                        y1 = (ty * image_height / grid_height) - (th / 2)
+                        x2 = (tx * image_width / grid_width) - (tw / 2)
+                        y2 = (ty * image_height / grid_height) - (th /2)
+
+                        current_boxes[r, c, a] = [x1, y1, x2, y2]
+
+                        current_box_confidences[r, c, a] = conf
+
+                        current_box_class_probs[r, c, a] = class_probs
+
