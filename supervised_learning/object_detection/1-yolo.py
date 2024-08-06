@@ -26,28 +26,38 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
+        # Pull the dimensions of the image
         image_height, image_width = image_size
 
+        # make lists to hold outputs
         boxes = []
         box_confidences = []
         box_class_probs = []
 
+        # for each output
         for output in outputs:
+            # assign height, width, and anchors from each output
             grid_height, grid_width, num_anchors = output.shape[:3]
 
+            # set up arrays for the current output
             current_boxes = np.zeros((grid_height, grid_width, num_anchors, 4))
             current_box_confidences = np.zeros((grid_height, grid_width, num_anchors, 1))
             current_box_class_probs = np.zeros((grid_height, grid_width, num_anchors, output.shape[3] - 5))
 
+            # For each cell in the grid
             for r in range(grid_height):
                 for c in range(grid_width):
                     for a in range(num_anchors):
+                        # tx and ty - center of the bounding box
+                        # tw and th - normalized height and width of bounding box
+                        # conf - confidence score of if the box contains an object
+                        # class probs - the probabilities for each class
                         tx, ty, tw, th, conf, *class_probs = output[r, c, a]
 
                         x1 = (tx * image_width / grid_width) - (tw / 2)
                         y1 = (ty * image_height / grid_height) - (th / 2)
-                        x2 = (tx * image_width / grid_width) - (tw / 2)
-                        y2 = (ty * image_height / grid_height) - (th /2)
+                        x2 = (tx * image_width / grid_width) + (tw / 2)
+                        y2 = (ty * image_height / grid_height) + (th /2)
 
                         current_boxes[r, c, a] = [x1, y1, x2, y2]
 
