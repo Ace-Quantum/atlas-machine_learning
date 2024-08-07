@@ -36,37 +36,23 @@ class Yolo:
 
         # for each output
         for output in outputs:
-            # assign height, width, and anchors from each output
-            grid_height, grid_width, num_anchors = output.shape[:3]
+            # Grab box coordinates
+            processed_boxes = output[:, :, :, :4]
 
-            # set up arrays for the current output
-            current_boxes = np.zeros((grid_height, grid_width, num_anchors, 4))
-            current_box_confidences = np.zeros((grid_height, grid_width, num_anchors, 1))
-            current_box_class_probs = np.zeros((grid_height, grid_width, num_anchors, output.shape[3] - 5))
+            # convert coordinates
+            processed_boxes[..., :2] = (processed_boxes[..., :2] + np.indices((
+                output.shape[0], output.shape[1])).T) / (output.shape[0], output.shape[1])
+            
+            processed_boxes[..., 2:4] = np.exp(processed_boxes[..., 2:4]) * self.model.anchors / image_size
 
-            # For each cell in the grid
-            for r in range(grid_height):
-                for c in range(grid_width):
-                    for a in range(num_anchors):
-                        # tx and ty - center of the bounding box
-                        # tw and th - normalized height and width of bounding box
-                        # conf - confidence score of if the box contains an object
-                        # class probs - the probabilities for each class
-                        tx, ty, tw, th, conf, *class_probs = output[r, c, a]
+            # extract confidences
+            box_confidence = output[:, :, :, 4:5]
 
-                        x1 = (tx * image_width / grid_width) - (tw / 2)
-                        y1 = (ty * image_height / grid_height) - (th / 2)
-                        x2 = (tx * image_width / grid_width) + (tw / 2)
-                        y2 = (ty * image_height / grid_height) + (th /2)
+            # extract class probabilities
+            box_class_prob = output[:, :, :, 5:]
 
-                        current_boxes[r, c, a] = [x1, y1, x2, y2]
-
-                        current_box_confidences[r, c, a] = conf
-
-                        current_box_class_probs[r, c, a] = class_probs
-
-            boxes.append(current_boxes)
-            box_confidences.append(current_box_confidences)
-            box_class_probs.append(current_box_class_probs)
+            boxes.append(processed_boxes)
+            box_confidences.append(box_confidence)
+            box_class_probs.append(box_class_prob)
 
         return boxes, box_confidences, box_class_probs
