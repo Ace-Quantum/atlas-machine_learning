@@ -36,3 +36,23 @@
             box_class_probs.append(current_box_class_probs)
 
         return boxes, box_confidences, box_class_probs
+
+            processed_boxes = output[:, :, :, :4]
+
+            # convert coordinates
+            processed_boxes[..., :2] = (processed_boxes[..., :2] + np.indices((
+                output.shape[0], output.shape[1])).T) / (output.shape[0], output.shape[1])
+            
+            processed_boxes[..., 2:4] = np.exp(processed_boxes[..., 2:4]) * self.model.anchors / image_size
+
+            # extract confidences
+            box_confidence = output[:, :, :, 4:5]
+
+            # extract class probabilities
+            box_class_prob = output[:, :, :, 5:]
+
+            boxes.append(processed_boxes)
+            box_confidences.append(box_confidence)
+            box_class_probs.append(box_class_prob)
+
+        return boxes, box_confidences, box_class_probs
