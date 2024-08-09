@@ -45,33 +45,10 @@ class Yolo:
             # Grab grid vars
             grid_height, grid_width, anchor_boxes, _ = output.shape
 
-            box_xy = self.sigmoid(output[..., :2])
-
-            box_wh = np.exp(output[..., 2:4])
-
             box_confidence = self.sigmoid(output[..., 4:5])
 
             box_class_prob = self.sigmoid(output[..., 5:])
 
-            # Creating new grid
-            col = np.tile(
-                np.arange(0, grid_width), grid_height).reshape(-1, grid_width)
-            row = np.tile(np.arange(0, grid_height).reshape(-1, 1), grid_width)
-            col = col.reshape(grid_height, grid_width, 1, 1).repeat(
-                anchor_boxes, axis=-2
-            )
-            row = row.reshape(grid_height, grid_width, 1, 1).repeat(
-                anchor_boxes, axis=-2
-            )
-
-            box_xy += np.concatenate((col, row), axis=-1)
-
-            box_xy /= (grid_width, grid_height)
-            box_wh /= self.model.input.shape[1:3]
-
-            box_xy -= box_wh / 2
-
-            boxes.append(np.concatenate((box_xy, box_xy + box_wh), axis=-1))
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
