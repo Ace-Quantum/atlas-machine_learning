@@ -40,22 +40,22 @@ class Yolo:
         box_class_probs = []
 
         # for each output
-        for i in range(len(outputs)):
+        for i, output in enumerate(outputs):
 
             # Grab grid vars
-            grid_height, grid_width = outputs[i].shape[:2]
+            grid_height, grid_width = output.shape[:2]
             anchors = self.anchors[i]
 
             # Confidences and probabilities
-            box_confidence = self.sigmoid(outputs[i][..., 4:5])
-            box_class_prob = self.sigmoid(outputs[i][..., 5:])
+            box_confidence = self.sigmoid(output[..., 4:5])
+            box_class_prob = self.sigmoid(output[..., 5:])
 
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
             # Box Things
-            pred_cent = outputs[i][..., :2]
-            pred_h_w = outputs[i][..., 2:4]
+            pred_cent = output[..., :2]
+            pred_h_w = output[..., 2:4]
 
             # calculating normalized width and height 
             norm_box_h_w = anchors * np.exp(pred_h_w)
