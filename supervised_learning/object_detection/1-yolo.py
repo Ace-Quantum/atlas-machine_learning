@@ -53,21 +53,21 @@ class Yolo:
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
-            # Box Things
+            # Box centers
             pred_cent = output[..., :2]
             pred_h_w = output[..., 2:4]
 
             # calculating normalized width and height 
-            norm_box_h_w = anchors * np.exp(pred_h_w)
-            norm_box_h_w /=[self.model.input[0].shape[1], self.model.input[0].shape[2]]
+            norm_box_w_h = anchors * np.exp(pred_h_w)
+            norm_box_w_h /=[self.model.input[0].shape[1], self.model.input[0].shape[2]]
 
             # calculate coordinates
             grid = np.tile(np.indices((grid_width, grid_height)).T,
                            anchors.shape[0]).reshape(grid_height, grid_width, -1, 2)
             
             act_xy = (self.sigmoid(pred_cent) + grid) / [grid_width, grid_height]
-            act_xy1 = act_xy - (norm_box_h_w / 2)
-            act_xy2 = act_xy1 + (norm_box_h_w / 2)
+            act_xy1 = act_xy - (norm_box_w_h / 2)
+            act_xy2 = act_xy + (norm_box_w_h / 2)
 
             box = np.concatenate((act_xy1, act_xy2), axis=-1)
 
