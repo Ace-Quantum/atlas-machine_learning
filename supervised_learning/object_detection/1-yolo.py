@@ -57,35 +57,53 @@ class Yolo:
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
-            # Trying a different approach I've seen
-            for i in range(grid_h):
-                for j in range(grid_w):
-                    for anch_idx in range(anch_boxes):
-                        # Initializing values
-                        anch_w, anch_h = self.anchors[index][anch_idx]
-                        tx, ty, tw, th = box_cords[i, j, anch_idx]
+            # grid indices for future use
+            grid_x = np.tile(np.arange(grid_w).reshape(1, grid_w, 1), (grid_h, 1, anch_boxes))
+            grid_y = np.tile(np.arange(grid_h).reshape(grid_h, 1, 1), (1, grid_w, anch_boxes))
 
-                        # get boundary box center coordinates
-                        bound_box_x = (self.sigmoid(tx) + j)
-                        bound_box_y = (self.sigmoid(ty) + i)
+            bound_box_x = (self.sigmoid(box_cords[..., 0]) + grid_x) / grid_w
+            bound_box_y = (self.sigmoid(box_cords[..., 1]) + grid_y) / grid_h
+            bound_box_w = self.anchors[index][:, 0] * np.exp(box_cords[..., 2]) / input_w
+            bound_box_h = self.anchors[index][:, 1] * np.exp(box_cords[..., 3]) / input_h
 
-                        # get width and height
-                        bound_box_w = anch_w * np.exp(tw)
-                        bound_box_h = anch_h * np.exp(th)
-
-                        # normalization
-                        bound_box_x /= grid_w
-                        bound_box_y /= grid_h
-                        bound_box_w /= int(input_w)
-                        bound_box_h /= int(input_h)
-
-                        # conversion to scale
-                        tl_x = bound_box_x - (bound_box_w / 2)
-                        tl_y = bound_box_y - (bound_box_h / 2)
-                        lr_x = bound_box_x + (bound_box_w / 2)
-                        lr_y = bound_box_y + (bound_box_h / 2)
-                        box_cords[i, j, anch_idx] = [tl_x, tl_y, lr_x, lr_y]
+            tl_x = (bound_box_x - (bound_box_w / 2) * image_w)
+            tl_y = (bound_box_y - (bound_box_h / 2) * image_h)
+            lr_x = (bound_box_x + (bound_box_w / 2) * image_w)
+            lr_y = (bound_box_y + (bound_box_h / 2) * image_h)
+            box_cords = np.stack([tl_x, tl_y, lr_x, lr_y], axis=-1)
 
             boxes.append(box_cords)
+
+
+            # # Trying a different approach I've seen
+            # for i in range(grid_h):
+            #     for j in range(grid_w):
+            #         for anch_idx in range(anch_boxes):
+            #             # Initializing values
+            #             anch_w, anch_h = self.anchors[index][anch_idx]
+            #             tx, ty, tw, th = box_cords[i, j, anch_idx]
+
+            #             # get boundary box center coordinates
+            #             bound_box_x = (self.sigmoid(tx) + j)
+            #             bound_box_y = (self.sigmoid(ty) + i)
+
+            #             # get width and height
+            #             bound_box_w = anch_w * np.exp(tw)
+            #             bound_box_h = anch_h * np.exp(th)
+
+            #             # normalization
+            #             bound_box_x /= grid_w
+            #             bound_box_y /= grid_h
+            #             bound_box_w /= int(input_w)
+            #             bound_box_h /= int(input_h)
+
+            #             # conversion to scale
+            #             tl_x = (bound_box_x - (bound_box_w / 2) * image_w)
+            #             tl_y = (bound_box_y - (bound_box_h / 2) * image_h)
+            #             lr_x = (bound_box_x + (bound_box_w / 2) * image_w)
+            #             lr_y = (bound_box_y + (bound_box_h / 2) * image_h)
+            #             box_cords[i, j, anch_idx] = [tl_x, tl_y, lr_x, lr_y]
+
+            # boxes.append(box_cords)
 
         return boxes, box_confidences, box_class_probs
