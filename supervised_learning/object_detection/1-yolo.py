@@ -31,8 +31,11 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
-        # Pull the dimensions of the image
-        image_height, image_width = image_size
+        # Pull the dimensions of the grid, the number of anchors, and the number of classes
+        # We may not need the last two.
+        grid_height, grid_width = outputs[0].shape[:2]
+        # num_anchors = outputs[0].shape[2]
+        # num_classes = outputs[0].shape[-1] - 5
 
         # make lists to hold outputs
         boxes = []
@@ -40,11 +43,15 @@ class Yolo:
         box_class_probs = []
 
         # for each output
-        for i, output in enumerate(outputs):
+        for output in outputs:
 
-            # Grab grid vars
-            grid_height, grid_width = output.shape[:2]
-            anchors = self.anchors[i]
+            # debug print because I'm going insane
+            print(f"shape of output[..., :4]: {output[..., :4].shape}")
+
+            # Grab grid params
+            # tx, ty, tw, th = output[..., :4]
+            box_cords = output[..., :4]
+            # print(f"output 4: {output[..., :4]}")
 
             # Confidences and probabilities
             box_confidence = self.sigmoid(output[..., 4:5])
@@ -53,26 +60,26 @@ class Yolo:
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
-            # Box centers
-            pred_cent = output[..., :2]
-            pred_h_w = output[..., 2:4]
+            # grid centers (I don't understand this part)
+            grid_x_center = np.linspace(0, image_size[1], grid_width)
+            grid_y_center = np.linspace(0, image_size[0], grid_height)
 
-            # calculating normalized width and height 
-            norm_box_w_h = anchors * np.exp(pred_h_w)
-            norm_box_w_h /=[self.model.input[0].shape[1], self.model.input[0].shape[2]]
+            # bounding box centers
+            bx_center = (box_cords[0] * grid_x_center[:, :, None] + (1 - box_cords[0]) * (grid_x_center + 1))[:, :, None]
+            by_center = (box_cords[1] * grid_y_center[:, :, None] + (1 - box_cords[1]) * (grid_y_center + 1))[:, :, None]
 
-            # calculate coordinates
-            grid = np.tile(np.indices((grid_width, grid_height)).T,
-                           anchors.shape[0]).reshape(grid_height, grid_width, -1, 2)
-            
-            act_xy = (self.sigmoid(pred_cent) + grid) / [grid_width, grid_height]
-            act_xy1 = act_xy - (norm_box_w_h / 2)
-            act_xy2 = act_xy + (norm_box_w_h / 2)
+            # box widths and heights
+            bw = box_cords[2] * np.exp(box_cords[0]) * (grid_x_center[:, :, None] + 1)
+            bh = box_cords[3] * np.exp(box_cords[1]) * (grid_y_center[:, :, None] + 1)
 
-            box = np.concatenate((act_xy1, act_xy2), axis=-1)
+            # Convert Corners
+            top_left = np.concatinate([bx_center - .5 * bw, by_center - .5 * bh], axis=-1)
+            bottom_right = np.concatenate([bx_center + .5 * bw, by_center + .5 * bh], axis=-1)
 
-            box *= np.tile(image_size, 2)
+            # Reshape
+            top_left = np.transpose(top_left, (2, 0, 2))
+            bottom_right = np.transpose(bottom_right, (2, 0, 1))
 
-            boxes.append(box)
+            boxes.append(np.concatenate([top_left, bottom_right], axis=-1))
 
         return boxes, box_confidences, box_class_probs
