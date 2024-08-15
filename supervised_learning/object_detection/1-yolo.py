@@ -31,27 +31,24 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
-        # Pull the dimensions of the grid, the number of anchors, and the number of classes
-        # We may not need the last two.
-        grid_height, grid_width = outputs[0].shape[:2]
-        # num_anchors = outputs[0].shape[2]
-        # num_classes = outputs[0].shape[-1] - 5
+        # grab variables
+        image_h, image_w = image_size
+        input_h, input_w = self.model.input.shape[1:3]
 
-        # make lists to hold outputs
+        # make lists to hold outputs 
         boxes = []
         box_confidences = []
         box_class_probs = []
 
         # for each output
-        for output in outputs:
+        for index, output in enumerate(outputs):
 
             # debug print because I'm going insane
-            print(f"shape of output[..., :4]: {output[..., :4].shape}")
+            # print(f"shape of output[..., :4]: {output[..., :4].shape}")
 
             # Grab grid params
-            # tx, ty, tw, th = output[..., :4]
+            grid_h, grid_w, anch_boxes = output.shape[:3]
             box_cords = output[..., :4]
-            # print(f"output 4: {output[..., :4]}")
 
             # Confidences and probabilities
             box_confidence = self.sigmoid(output[..., 4:5])
@@ -60,26 +57,35 @@ class Yolo:
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
-            # grid centers (I don't understand this part)
-            grid_x_center = np.linspace(0, image_size[1], grid_width)
-            grid_y_center = np.linspace(0, image_size[0], grid_height)
+            # Trying a different approach I've seen
+            for i in range(grid_h):
+                for j in range(grid_w):
+                    for anch_idx in range(anch_boxes):
+                        # Initializing values
+                        anch_w, anch_h = self.anchors[index][anch_idx]
+                        tx, ty, tw, th = box_cords[i, j, anch_idx]
 
-            # bounding box centers
-            bx_center = (box_cords[0] * grid_x_center[:, :, None] + (1 - box_cords[0]) * (grid_x_center + 1))[:, :, None]
-            by_center = (box_cords[1] * grid_y_center[:, :, None] + (1 - box_cords[1]) * (grid_y_center + 1))[:, :, None]
+                        # get boundary box center coordinates
+                        bound_box_x = (self.sigmoid(tx) + j)
+                        bound_box_y = (self.sigmoid(ty) + i)
 
-            # box widths and heights
-            bw = box_cords[2] * np.exp(box_cords[0]) * (grid_x_center[:, :, None] + 1)
-            bh = box_cords[3] * np.exp(box_cords[1]) * (grid_y_center[:, :, None] + 1)
+                        # get width and height
+                        bound_box_w = anch_w * np.exp(tw)
+                        bound_box_h = anch_h * np.exp(th)
 
-            # Convert Corners
-            top_left = np.concatinate([bx_center - .5 * bw, by_center - .5 * bh], axis=-1)
-            bottom_right = np.concatenate([bx_center + .5 * bw, by_center + .5 * bh], axis=-1)
+                        # normalization
+                        bound_box_x /= grid_w
+                        bound_box_y /= grid_h
+                        bound_box_w /= int(input_w)
+                        bound_box_h /= int(input_h)
 
-            # Reshape
-            top_left = np.transpose(top_left, (2, 0, 2))
-            bottom_right = np.transpose(bottom_right, (2, 0, 1))
+                        # conversion to scale
+                        tl_x = (bound_box_x - (bound_box_w / 2) * image_w)
+                        tl_y = (bound_box_y - (bound_box_h / 2) * image_h)
+                        lr_x = (bound_box_x + (bound_box_w / 2) * image_w)
+                        lr_y = (bound_box_y + (bound_box_h / 2) * image_h)
+                        box_cords[i, j, anch_idx] = [tl_x, tl_y, lr_x, lr_y]
 
-            boxes.append(np.concatenate([top_left, bottom_right], axis=-1))
+            boxes.append(box_cords)
 
         return boxes, box_confidences, box_class_probs
