@@ -31,24 +31,23 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
-        # grab variables
-        image_h, image_w = image_size
+        # Pull the dimensions of the image
+        image_height, image_width = image_size
         input_h, input_w = self.model.input.shape[1:3]
 
-        # make lists to hold outputs 
+        # make lists to hold outputs
         boxes = []
         box_confidences = []
         box_class_probs = []
 
         # for each output
-        for index, output in enumerate(outputs):
+        for i, output in enumerate(outputs):
 
-            # debug print because I'm going insane
-            # print(f"shape of output[..., :4]: {output[..., :4].shape}")
-
-            # Grab grid params
-            grid_h, grid_w, anch_boxes = output.shape[:3]
-            box_cords = output[..., :4]
+            # Grab grid vars
+            grid_height, grid_width = output.shape[:2]
+            anchors = self.anchors[i]
+            num_anchors = output.shape[2]
+            print(f"anchors: {anchors}")
 
             # Confidences and probabilities
             box_confidence = self.sigmoid(output[..., 4:5])
@@ -57,53 +56,42 @@ class Yolo:
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
-            # grid indices for future use
-            grid_x = np.tile(np.arange(grid_w).reshape(1, grid_w, 1), (grid_h, 1, anch_boxes))
-            grid_y = np.tile(np.arange(grid_h).reshape(grid_h, 1, 1), (1, grid_w, anch_boxes))
+            # Box centers
+            pred_cent = output[..., :2]
+            pred_h_w = output[..., 2:4]
 
-            bound_box_x = (self.sigmoid(box_cords[..., 0]) + grid_x) / grid_w
-            bound_box_y = (self.sigmoid(box_cords[..., 1]) + grid_y) / grid_h
-            bound_box_w = self.anchors[index][:, 0] * np.exp(box_cords[..., 2]) / input_w
-            bound_box_h = self.anchors[index][:, 1] * np.exp(box_cords[..., 3]) / input_h
+            # calculating normalized width and height 
+            norm_box_w_h = (anchors * np.exp(pred_h_w)) / input_w
+            # norm_box_w_h /= [self.model.input[0].shape[1], self.model.input[0].shape[2]]
 
-            tl_x = (bound_box_x - (bound_box_w / 2) * image_w)
-            tl_y = (bound_box_y - (bound_box_h / 2) * image_h)
-            lr_x = (bound_box_x + (bound_box_w / 2) * image_w)
-            lr_y = (bound_box_y + (bound_box_h / 2) * image_h)
-            box_cords = np.stack([tl_x, tl_y, lr_x, lr_y], axis=-1)
+            # calculate coordinates
+            # grid = np.tile(np.indices((grid_width, grid_height)).T,
+            #             anchors.shape[0]).reshape(grid_height, grid_width, -1, 2)
+            
+            center_x = np.arange(grid_width).reshape(1, grid_width)
+            center_x = np.repeat(center_x, grid_width, axis=0)
+            center_x = np.repeat(center_x[..., np.newaxis], num_anchors)
 
-            boxes.append(box_cords)
+            center_y = np.arange(grid_height).reshape(1, grid_width)
+            center_y = np.repeat(center_y, grid_width, axis=0).T
+            center_y = np.repeat(center_y[..., np.newaxis], num_anchors)
 
+            grid = np.concatenate((center_x, center_y), axis=-1)
 
-            # # Trying a different approach I've seen
-            # for i in range(grid_h):
-            #     for j in range(grid_w):
-            #         for anch_idx in range(anch_boxes):
-            #             # Initializing values
-            #             anch_w, anch_h = self.anchors[index][anch_idx]
-            #             tx, ty, tw, th = box_cords[i, j, anch_idx]
+            grid = grid.reshape(pred_cent.shape)
+            # print(f"shape of grid: {grid.shape}")
+            # print(f"shape of pred_cent: {pred_cent.shape}")
 
-            #             # get boundary box center coordinates
-            #             bound_box_x = (self.sigmoid(tx) + j)
-            #             bound_box_y = (self.sigmoid(ty) + i)
+            act_xy = (self.sigmoid(pred_cent) + grid)
+            act_xy = act_xy / [grid_width, grid_height]
+            act_xy1 = (act_xy - (norm_box_w_h / 2)) * (image_width, image_height)
+            act_xy2 = (act_xy + (norm_box_w_h / 2)) * (image_width, image_height)
 
-            #             # get width and height
-            #             bound_box_w = anch_w * np.exp(tw)
-            #             bound_box_h = anch_h * np.exp(th)
+            box = np.concatenate((act_xy1, act_xy2), axis=-1)
 
-            #             # normalization
-            #             bound_box_x /= grid_w
-            #             bound_box_y /= grid_h
-            #             bound_box_w /= int(input_w)
-            #             bound_box_h /= int(input_h)
+            # box *= np.tile(image_size, 2)
 
-            #             # conversion to scale
-            #             tl_x = (bound_box_x - (bound_box_w / 2) * image_w)
-            #             tl_y = (bound_box_y - (bound_box_h / 2) * image_h)
-            #             lr_x = (bound_box_x + (bound_box_w / 2) * image_w)
-            #             lr_y = (bound_box_y + (bound_box_h / 2) * image_h)
-            #             box_cords[i, j, anch_idx] = [tl_x, tl_y, lr_x, lr_y]
+            boxes.append(box)
 
-            # boxes.append(box_cords)
 
         return boxes, box_confidences, box_class_probs
