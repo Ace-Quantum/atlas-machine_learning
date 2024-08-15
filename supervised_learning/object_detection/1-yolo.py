@@ -61,7 +61,7 @@ class Yolo:
             pred_h_w = output[..., 2:4]
 
             # calculating normalized width and height 
-            norm_box_w_h = (anchors * np.exp(pred_h_w)) / input_w
+            norm_box_w_h = (anchors * np.exp(pred_h_w)) / np.array([input_w, input_h])
             
             center_x = np.arange(grid_width).reshape(1, grid_width)
             center_x = np.repeat(center_x, grid_height, axis=0)
@@ -79,10 +79,19 @@ class Yolo:
             # print(f"shape of pred_cent: {pred_cent.shape}")
 
             act_xy = (self.sigmoid(pred_cent) + grid) / np.array([grid_width, grid_height])
-            act_xy1 = (act_xy - (norm_box_w_h / 2))
-            act_xy2 = (act_xy + (norm_box_w_h / 2))
+            
+            act_xy *= np.array([image_width, image_height])
 
-            box = np.concatenate((act_xy1, act_xy2), axis=-1)
+            box_x1 = act_xy[..., 0] - (norm_box_w_h[..., 0] / 2 * image_width)
+            box_y1 = act_xy[..., 1] - (norm_box_w_h[..., 1] / 2 * image_height)
+            box_x2 = act_xy[..., 0] + (norm_box_w_h[..., 0] / 2 * image_width)
+            box_y2 = act_xy[..., 1] + (norm_box_w_h[..., 1] / 2 * image_height)
+
+            # act_xy1 = (act_xy - (norm_box_w_h / 2))
+            # act_xy2 = (act_xy + (norm_box_w_h / 2))
+
+            # box = np.concatenate((act_xy1, act_xy2), axis=-1)
+            box = np.stack((box_x1, box_y1, box_x2, box_y2), axis=-1)
 
             # box *= np.tile(image_size, 2)
 
