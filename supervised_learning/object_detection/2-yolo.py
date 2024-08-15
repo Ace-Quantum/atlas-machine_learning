@@ -3,6 +3,7 @@
 """Set up for the Yolo Model"""
 
 from tensorflow import keras as K
+import numpy as np
 
 
 def load_class_names(filepath):

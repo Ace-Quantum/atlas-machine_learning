@@ -80,10 +80,10 @@ class Yolo:
                         bound_box_h /= int(input_h)
 
                         # conversion to scale
-                        tl_x = (bound_box_x - (bound_box_w / 2) * image_w)
-                        tl_y = (bound_box_y - (bound_box_h / 2) * image_h)
-                        lr_x = (bound_box_x + (bound_box_w / 2) * image_w)
-                        lr_y = (bound_box_y + (bound_box_h / 2) * image_h)
+                        tl_x = bound_box_x - (bound_box_w / 2)
+                        tl_y = bound_box_y - (bound_box_h / 2)
+                        lr_x = bound_box_x + (bound_box_w / 2)
+                        lr_y = bound_box_y + (bound_box_h / 2)
                         box_cords[i, j, anch_idx] = [tl_x, tl_y, lr_x, lr_y]
 
             boxes.append(box_cords)
