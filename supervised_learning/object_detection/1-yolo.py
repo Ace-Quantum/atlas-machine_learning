@@ -69,10 +69,10 @@ class Yolo:
             #             anchors.shape[0]).reshape(grid_height, grid_width, -1, 2)
             
             center_x = np.arange(grid_width).reshape(1, grid_width)
-            center_x = np.repeat(center_x, grid_width, axis=0)
+            center_x = np.repeat(center_x, grid_height, axis=0)
             center_x = np.repeat(center_x[..., np.newaxis], num_anchors, axis=-1)
 
-            center_y = np.arange(grid_height).reshape(1, grid_width)
+            center_y = np.arange(grid_height).reshape(1, grid_height)
             center_y = np.repeat(center_y, grid_width, axis=0).T
             center_y = np.repeat(center_y[..., np.newaxis], num_anchors, axis=-1)
 
@@ -83,7 +83,7 @@ class Yolo:
             # print(f"shape of grid: {grid.shape}")
             # print(f"shape of pred_cent: {pred_cent.shape}")
 
-            act_xy = (self.sigmoid(pred_cent) + grid) / [grid_width, grid_height]
+            act_xy = (self.sigmoid(pred_cent) + grid) / np.array([grid_width, grid_height])
             # act_xy = act_xy / [grid_width, grid_height]
             act_xy1 = (act_xy - (norm_box_w_h / 2)) * np.array([image_width, image_height])
             act_xy2 = (act_xy + (norm_box_w_h / 2)) * np.array([image_width, image_height])
