@@ -47,7 +47,7 @@ class Yolo:
             grid_height, grid_width = output.shape[:2]
             anchors = self.anchors[i]
             num_anchors = output.shape[2]
-            print(f"anchors: {anchors}")
+            # print(f"anchors: {anchors}")
 
             # Confidences and probabilities
             box_confidence = self.sigmoid(output[..., 4:5])
