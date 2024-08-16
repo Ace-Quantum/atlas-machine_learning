@@ -31,75 +31,53 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
-        # Pull the dimensions of the image
-        image_height, image_width = image_size
-        input_h, input_w = self.model.input.shape[1:3]
-
-        # make lists to hold outputs
-        boxes = []
+        boxes = [output[..., :4] for output in outputs]
         box_confidences = []
         box_class_probs = []
 
-        # for each output
+        image_height = image_size[0]
+        image_width = image_size[1]
+
+        input_layer = self.model.input
+        input_width, input_height = input_layer.shape[1:3]
+
         for i, output in enumerate(outputs):
 
-            # Grab grid vars
-            grid_height, grid_width = output.shape[:2]
-            anchors = self.anchors[i]
-            num_anchors = output.shape[2]
-            # print(f"anchors: {anchors}")
+            box = output
+            box_x = box[..., 0]
+            box_y = box[..., 1]
+            box_w = box[..., 2]
+            box_h = box[..., 3]
 
-            # Confidences and probabilities
             box_confidence = self.sigmoid(output[..., 4:5])
             box_class_prob = self.sigmoid(output[..., 5:])
 
             box_confidences.append(box_confidence)
             box_class_probs.append(box_class_prob)
 
-            # Box centers
-            pred_cent = output[..., :2]
-            pred_h_w = output[..., 2:4]
-
-            # calculating normalized width and height
-            norm_box_w_h = (anchors * np.exp(
-                pred_h_w)) / np.array([input_w, input_h])
+            grid_height = box.shape[0]
+            grid_width = box.shape[1]
+            num_anchors = output.shape[2]
 
             center_x = np.arange(grid_width).reshape(1, grid_width)
             center_x = np.repeat(center_x, grid_height, axis=0)
-            center_x = np.repeat(center_x[..., np.newaxis],
-                                 num_anchors, axis=-1)
 
-            center_y = np.arange(grid_height).reshape(1, grid_height)
-            center_y = np.repeat(center_y, grid_width, axis=0).T
-            center_y = np.repeat(center_y[..., np.newaxis],
-                                 num_anchors, axis=-1)
+            center_y = np.arange(grid_width).reshape(1, grid_width)
+            center_y = np.repeat(center_y, grid_height, axis=0).T
 
-            # grid = np.concatenate((center_x, center_y), axis=-1)
-            grid = np.stack((center_x, center_y), axis=-1)
-            grid = grid.reshape(pred_cent.shape)
+            center_x = np.repeat(center_x[..., np.newaxis], num_anchors, axis=2)
+            center_y = np.repeat(center_y[..., np.newaxis], num_anchors, axis=2)
 
-            # print(f"shape of grid: {grid.shape}")
-            # print(f"shape of pred_cent: {pred_cent.shape}")
+            pred_x = (self.sigmoid(box_x) + center_x) / grid_width
+            pred_y = (self.sigmoid(box_y) + center_y) / grid_height
+            pred_w = (np.exp(box_w) * self.anchors[i, :, 0]) / input_width
+            pred_h = (np.exp(box_h) * self.anchors[i, :, 1]) / input_height
 
-            act_xy = (self.sigmoid(pred_cent) + grid) / np.array(
-                [grid_width, grid_height]
-            )
+            boxes[i][..., 0] = (pred_x - (pred_w / 2)) * image_width
+            boxes[i][..., 1] = (pred_y - (pred_h / 2)) * image_height
+            boxes[i][..., 2] = (pred_x + (pred_w / 2)) * image_width
+            boxes[i][..., 3] = (pred_y + (pred_h / 2)) * image_height
 
-            act_xy *= np.array([image_width, image_height])
-
-            box_x1 = act_xy[..., 0] - (norm_box_w_h[..., 0] / 2 * image_width)
-            box_y1 = act_xy[..., 1] - (norm_box_w_h[..., 1] / 2 * image_height)
-            box_x2 = act_xy[..., 0] + (norm_box_w_h[..., 0] / 2 * image_width)
-            box_y2 = act_xy[..., 1] + (norm_box_w_h[..., 1] / 2 * image_height)
-
-            # act_xy1 = (act_xy - (norm_box_w_h / 2))
-            # act_xy2 = (act_xy + (norm_box_w_h / 2))
-
-            # box = np.concatenate((act_xy1, act_xy2), axis=-1)
-            box = np.stack((box_x1, box_y1, box_x2, box_y2), axis=-1)
-
-            # box *= np.tile(image_size, 2)
-
-            boxes.append(box)
+            # boxes.append(box)
 
         return boxes, box_confidences, box_class_probs
