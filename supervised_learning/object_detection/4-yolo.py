@@ -154,7 +154,7 @@ class Yolo:
     def load_images(self, folder_path):
         """Loads images"""
         # initializing lists
-        images =[]
+        images = []
         image_paths = []
 
         for filename in os.listdir(folder_path):
