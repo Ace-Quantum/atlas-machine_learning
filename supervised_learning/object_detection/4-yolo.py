@@ -151,7 +151,7 @@ class Yolo:
 
         return iou
 
-    def load_images(folder_path):
+    def load_images(self, folder_path):
         """Loads images"""
         # initializing lists
         images =[]
