@@ -65,8 +65,10 @@ class Yolo:
             center_y = np.arange(grid_width).reshape(1, grid_width)
             center_y = np.repeat(center_y, grid_height, axis=0).T
 
-            center_x = np.repeat(center_x[..., np.newaxis], num_anchors, axis=2)
-            center_y = np.repeat(center_y[..., np.newaxis], num_anchors, axis=2)
+            center_x = np.repeat(center_x[..., np.newaxis],
+                                 num_anchors, axis=2)
+            center_y = np.repeat(center_y[..., np.newaxis],
+                                 num_anchors, axis=2)
 
             pred_x = (self.sigmoid(box_x) + center_x) / grid_width
             pred_y = (self.sigmoid(box_y) + center_y) / grid_height
