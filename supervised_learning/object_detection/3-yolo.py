@@ -28,26 +28,6 @@ class Yolo:
         """Makes a sigmoid to return
         Idk if I'll need it"""
         return 1 / (1 + np.exp(-x))
-    
-    def calculate_iou(box1, box2):
-        x1, y1, x2, y2 = box1
-        x3, y3, x4, y4 = box2
-
-        xi1 = max(x1, x3)
-        yi1 = max(y1, y3)
-        xi2 = min(x2, x4)
-        yi2 = min(y2, y4)
-
-        inter_area = max((xi2 - xi1) * (yi2 - yi1), 0)
-
-        box1_area = (x2 - x1) * (y2 - y1)
-        box2_area = (x4 - x3) * (y4 - y3)
-
-        union_area = box1_area + box2_area - inter_area
-
-        iou = inter_area / union_area
-
-        return iou
 
     def process_outputs(self, outputs, image_size):
         """Processes the outputs"""
@@ -133,12 +113,42 @@ class Yolo:
         box_classes = box_classes.tolist()
         box_scores = box_scores.tolist()
 
-        box_predictions = []
+        filtered_boxes = np.array(filtered_boxes)
+        box_classes = np.array(box_classes)
+        box_scores = np.array(box_scores)
+
+        box_preds = []
         pred_box_classes = []
         pred_box_scores = []
 
-        for box in filtered_boxes:
-            IoUs = []
-            for other_box in filtered_boxes:
-                if box != other_box:
-                    IoU = calculate_iou()
+        indices = np.argsort(box_scores)[::-1]
+
+        while len(indices) > 0:
+            curr_index = indices[0]
+            box_preds.append(filtered_boxes[curr_index])
+            pred_box_classes.append(box_classes[curr_index])
+            pred_box_scores.append(box_scores[curr_index])
+
+            curr_box = filtered_boxes[curr_index]
+            remaining_boxes = filtered_boxes[indices[1:]]
+
+            iou = self.calculate_iou(curr_box, remaining_boxes)
+
+            indices = indices[np.where(iou < self.nms_t)[0] + 1]
+
+        return (np.array(box_preds), np.array(pred_box_classes), np.array(pred_box_scores))
+    
+    def calculate_iou(self, box, boxes):
+        x1 = np.maximum(box[0], boxes[:, 0])
+        y1 = np.maximum(box[1], boxes[:, 1])
+        x2 = np.minimum(box[2], boxes[:, 2])
+        y2 = np.minimum(box[3], boxes[:, 3])
+
+        intersection = np.maximum(0, x2 - x1) * np.maximum(0, y2 - y1)
+
+        box_area = (box[2] - box[0]) * (box[3] - box[1])
+        boxes_area = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
+
+        iou = intersection / (box_area + boxes_area - intersection)
+
+        return iou
