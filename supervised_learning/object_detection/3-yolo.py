@@ -130,8 +130,9 @@ class Yolo:
 
             indices = indices[np.where(iou < self.nms_t)[0] + 1]
 
-        return (np.array(box_preds), np.array(pred_box_classes), np.array(pred_box_scores))
-    
+        return (np.array(box_preds),
+                np.array(pred_box_classes), np.array(pred_box_scores))
+
     def calculate_iou(self, box, boxes):
         """Calculates an iou"""
         x1 = np.maximum(box[0], boxes[:, 0])
