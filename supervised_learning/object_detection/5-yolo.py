@@ -168,6 +168,7 @@ class Yolo:
         return images, image_paths
 
     def preprocess_images(self, images):
+        """Preproces images"""
         # initialize lists
         processed_images = []
         image_shapes = []
@@ -176,7 +177,8 @@ class Yolo:
             input_layer = self.model.input
             input_w, input_h = input_layer.shape[1:3]
 
-            image_resized = cv2.resize(img, (int(input_w), int(input_h)), interpolation=cv2.INTER_CUBIC)
+            image_resized = cv2.resize(img, (
+                int(input_w), int(input_h)), interpolation=cv2.INTER_CUBIC)
 
             image_resized = image_resized / 255.0
 
