@@ -67,6 +67,7 @@ class Yolo:
 
             center_x = np.repeat(center_x[..., np.newaxis],
                                  num_anchors, axis=2)
+
             center_y = np.repeat(center_y[..., np.newaxis],
                                  num_anchors, axis=2)
 
@@ -85,25 +86,22 @@ class Yolo:
         return boxes, box_confidences, box_class_probs
 
     def filter_boxes(self, boxes, box_confidences, box_class_probs):
-        filtered_boxes = []
-        box_classes = []
-        box_scores = []
+        box_scores = [box_conf * box_class for box_conf, box_class in zip(
+            box_confidences, box_class_probs)]
+        box_classes = [np.argmax(score, axis=-1) for score in box_scores]
+        box_class_scores = [np.max(score, axis=-1) for score in box_scores]
 
-        for i in range(len(boxes)):
-            curr_boxes = boxes[i]
-            curr_confidences = box_confidences[i]
-            curr_class_probs = box_class_probs[i]
+        filtered_box_es = [box.reshape(-1, 4) for box in boxes]
+        box_classes = [cls.reshape(-1) for cls in box_classes]
+        box_scores = [score.reshape(-1) for score in box_class_scores]
 
-            scores = curr_confidences * curr_class_probs
-            max_scores = np.max(scores, axis=-1)
-            mask = max_scores >= self.class_t
-
-            filtered_boxes.append(curr_boxes[mask])
-            box_classes.append(np.argmax(curr_class_probs[mask], axis=-1))
-            box_scores.append(scores[mask])
-
-        filtered_boxes = np.concatenate(filtered_boxes, axis=0)
+        filtered_box_es = np.concatenate(filtered_box_es, axis=0)
         box_classes = np.concatenate(box_classes, axis=0)
         box_scores = np.concatenate(box_scores, axis=0)
 
-        return filtered_boxes, box_classes, box_scores
+        filter_mask = box_scores >= self.class_t
+        filtered_box_es = filtered_box_es[filter_mask]
+        box_classes = box_classes[filter_mask]
+        box_scores = box_scores[filter_mask]
+
+        return filtered_box_es, box_classes, box_scores
