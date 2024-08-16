@@ -109,19 +109,13 @@ class Yolo:
         return filtered_box_es, box_classes, box_scores
 
     def non_max_suppression(self, filtered_boxes, box_classes, box_scores):
-        filtered_boxes = filtered_boxes.tolist()
-        box_classes = box_classes.tolist()
-        box_scores = box_scores.tolist()
-
-        filtered_boxes = np.array(filtered_boxes)
-        box_classes = np.array(box_classes)
-        box_scores = np.array(box_scores)
+        """Returns a non_max curated list of boxes"""
 
         box_preds = []
         pred_box_classes = []
         pred_box_scores = []
 
-        indices = np.argsort(box_scores)[::-1]
+        indices = np.lexsort((-box_scores, box_classes))
 
         while len(indices) > 0:
             curr_index = indices[0]
@@ -139,6 +133,7 @@ class Yolo:
         return (np.array(box_preds), np.array(pred_box_classes), np.array(pred_box_scores))
     
     def calculate_iou(self, box, boxes):
+        """Calculates an iou"""
         x1 = np.maximum(box[0], boxes[:, 0])
         y1 = np.maximum(box[1], boxes[:, 1])
         x2 = np.minimum(box[2], boxes[:, 2])
