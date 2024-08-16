@@ -86,6 +86,8 @@ class Yolo:
         return boxes, box_confidences, box_class_probs
 
     def filter_boxes(self, boxes, box_confidences, box_class_probs):
+        """filters the output"""
+        # calculating box scores
         box_scores = [box_conf * box_class for box_conf, box_class in zip(
             box_confidences, box_class_probs)]
         box_classes = [np.argmax(score, axis=-1) for score in box_scores]
