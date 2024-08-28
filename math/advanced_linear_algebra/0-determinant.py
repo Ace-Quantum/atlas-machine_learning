@@ -24,13 +24,14 @@ def check_lists(matrix):
     """Checks if the matrix is a list of lists"""
 
     if isinstance(matrix, list):
-        return all(isinstance(item, list) for item in matrix)
+        return all(isinstance(item, list) and len(
+            item) == len(matrix[0]) for item in matrix)
     return False
 
 def determinant(matrix, total=0):
     """This will find the determinant"""
 
-    if check_lists(matrix) != True:
+    if not check_lists(matrix):
         return TypeError("matrix must be a list of lists")
 
     # Error handling if matrix is not square
@@ -68,7 +69,7 @@ def determinant(matrix, total=0):
         sign = (-1) ** (fc % 2)
 
         # this makes sense kind of I guess?
-        sub_det = determinant(copy_matrix)
+        sub_det = determinant(copy)
 
         # total all the returns
         total += sign * matrix[0][fc] * sub_det
