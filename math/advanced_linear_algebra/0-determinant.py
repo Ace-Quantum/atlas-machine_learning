@@ -23,7 +23,7 @@ def copy_matrix(matrix):
 def check_lists(matrix):
     """Checks if the matrix is a list of lists"""
 
-    if isinstance(matrix, list):
+    if isinstance(matrix, list) and len(matrix) > 0:
         return all(isinstance(item, list) and len(
             item) == len(matrix[0]) for item in matrix)
     return False
@@ -32,12 +32,14 @@ def determinant(matrix, total=0):
     """This will find the determinant"""
 
     if not check_lists(matrix):
-        return TypeError("matrix must be a list of lists")
+        raise TypeError("matrix must be a list of lists")
 
     # Error handling if matrix is not square
     if len(matrix) != len(matrix[0]):
-        return ValueError("matrix must be a square matrix")
-
+        if matrix == [[]]:
+            return 1
+        else:
+            raise ValueError("matrix must be a square matrix")
 
     # set up some indeces to use later
     indices = list(range(len(matrix)))
