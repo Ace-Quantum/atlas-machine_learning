@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """This is meant to teach me to code to find a determinant of a matrix"""
 
+
 def copy_matrix(matrix):
     """A helper function for copying matrices"""
 
@@ -20,12 +21,16 @@ def copy_matrix(matrix):
 
     return new_matrix
 
+
 def valid_matrix(matrix):
     """Checks if the matrix is a list of lists"""
 
-    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+    if not isinstance(matrix, list):
         raise TypeError("matrix must be a list of lists")
-    
+
+    if not all(isinstance(row, list) for row in matrix):
+        raise TypeError("matrix must be a list of lists")
+
     if not matrix:
         raise TypeError("matrix must be a list of lists")
 
@@ -39,7 +44,7 @@ def valid_matrix(matrix):
 def determinant(matrix, total=0):
     """This will find the determinant"""
 
-    if matrix ==[[]]:
+    if matrix == [[]]:
         return 1
 
     valid_matrix(matrix)
@@ -56,7 +61,7 @@ def determinant(matrix, total=0):
     if len(matrix) == 2 and len(matrix[0]) == 2:
         det = matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1]
         return det
-    
+
     # I found this code from
     # https://integratedmlai.com/
     # find-the-determinant-of-a-matrix-with-pure-python-without-numpy-or-scipy/
@@ -68,7 +73,7 @@ def determinant(matrix, total=0):
         height = len(copy)
 
         for i in range(height):
-            copy[i] = copy[i][0:fc] + copy[i][fc+1:]
+            copy[i] = copy[i][0:fc] + copy[i][fc + 1:]
 
         # Why find and keep sign?
         sign = (-1) ** (fc % 2)
