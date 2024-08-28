@@ -20,27 +20,29 @@ def copy_matrix(matrix):
 
     return new_matrix
 
-def check_lists(matrix):
+def valid_matrix(matrix):
     """Checks if the matrix is a list of lists"""
 
-    if isinstance(matrix, list) and len(matrix) > 0:
-        return all(isinstance(item, list) and len(
-            item) == len(matrix[0]) for item in matrix)
-    return False
+    if not isinstance(matrix, list) or not all(isinstance(row, list) for row in matrix):
+        raise TypeError("matrix must be a list of lists")
+    
+    if not matrix:
+        raise TypeError("matrix must be a list of lists")
+
+    row_len = len(matrix)
+
+    for row in matrix:
+        if len(row) != row_len:
+            raise ValueError("matrix must be a square matrix")
+
 
 def determinant(matrix, total=0):
     """This will find the determinant"""
 
-    if not check_lists(matrix):
-        raise TypeError("matrix must be a list of lists")
+    if matrix ==[[]]:
+        return 1
 
-    # Error handling if matrix is not square
-    row_len = len(matrix)
-    if not all(len(row) == row_len for row in matrix):
-        if matrix == [[]]:
-            return 1
-        else:
-            raise ValueError("matrix must be a square matrix")
+    valid_matrix(matrix)
 
     # set up some indeces to use later
     indices = list(range(len(matrix)))
