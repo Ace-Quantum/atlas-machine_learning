@@ -35,7 +35,8 @@ def determinant(matrix, total=0):
         raise TypeError("matrix must be a list of lists")
 
     # Error handling if matrix is not square
-    if len(matrix) != len(matrix[0]):
+    row_len = len(matrix)
+    if not all(len(row) == row_len for row in matrix):
         if matrix == [[]]:
             return 1
         else:
