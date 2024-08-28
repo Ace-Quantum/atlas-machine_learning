@@ -20,10 +20,17 @@ def copy_matrix(matrix):
 
     return new_matrix
 
+def check_lists(matrix):
+    """Checks if the matrix is a list of lists"""
+
+    if isinstance(matrix, list):
+        return all(isinstance(item, list) for item in matrix)
+    return False
+
 def determinant(matrix, total=0):
     """This will find the determinant"""
 
-    if type(matrix) != list or type(matrix[0]) != list:
+    if check_lists(matrix) != True:
         return TypeError("matrix must be a list of lists")
 
     # Error handling if matrix is not square
