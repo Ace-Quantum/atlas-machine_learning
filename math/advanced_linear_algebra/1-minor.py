@@ -114,3 +114,27 @@ def minor(matrix):
             new_matrix[i][j] = determinant(temp_copy)
 
     return new_matrix
+
+
+def cofactor(matrix):
+    """Finds a cofactor"""
+    valid_matrix(matrix)
+
+    if len(matrix) == 1:
+        return [[1]]
+
+    minor_matrix = minor(matrix)
+
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    new_matrix = [[0.0 for _ in range(cols)] for _ in range(rows)]
+
+    for i in range(rows):
+        for j in range(cols):
+            new_matrix[i][j] = minor_matrix[i][j] * (-1) ** (i + j)
+
+    return new_matrix
+
+def adjugate(matrix):
+    

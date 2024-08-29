@@ -45,7 +45,7 @@ def determinant(matrix, total=0):
     """This will find the determinant"""
 
     if matrix == [[]]:
-        return 1
+        return [[1]]
 
     valid_matrix(matrix)
 
