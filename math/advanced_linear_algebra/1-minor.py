@@ -88,7 +88,7 @@ def determinant(matrix, total=0):
 
 def minor(matrix):
     if len(matrix) == 1:
-        return 1
+        return matrix[0]
     
     valid_matrix(matrix)
 
