@@ -139,10 +139,10 @@ def cofactor(matrix):
 def adjugate(matrix):
     """Finds the adjugate"""
 
+    valid_matrix(matrix)
+
     if len(matrix) == 1:
         return [[1]]
-
-    valid_matrix(matrix)
 
     temp_matrix = cofactor(matrix)
 
