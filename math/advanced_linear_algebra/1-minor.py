@@ -89,10 +89,10 @@ def determinant(matrix, total=0):
 
 def minor(matrix):
     """determines the minor of a matrix"""
+    valid_matrix(matrix)
+    
     if len(matrix) == 1:
         return [[1]]
-
-    valid_matrix(matrix)
 
     rows = len(matrix)
     cols = len(matrix[0])
