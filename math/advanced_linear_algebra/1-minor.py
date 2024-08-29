@@ -44,10 +44,10 @@ def valid_matrix(matrix):
 def determinant(matrix, total=0):
     """This will find the determinant"""
 
+    valid_matrix(matrix)
+
     if matrix == [[]]:
         return 1
-
-    valid_matrix(matrix)
 
     # set up some indeces to use later
     indices = list(range(len(matrix)))
