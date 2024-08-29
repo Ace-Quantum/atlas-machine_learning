@@ -136,6 +136,7 @@ def cofactor(matrix):
 
     return new_matrix
 
+
 def adjugate(matrix):
     """Finds the adjugate"""
 
