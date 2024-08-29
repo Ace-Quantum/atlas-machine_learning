@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Finding the minor of a matrix"""
 
+
 def copy_matrix(matrix):
     """A helper function for copying matrices"""
 
@@ -87,9 +88,10 @@ def determinant(matrix, total=0):
 
 
 def minor(matrix):
+    """determines the minor of a matrix"""
     if len(matrix) == 1:
         return matrix[0]
-    
+
     valid_matrix(matrix)
 
     rows = len(matrix)
@@ -107,7 +109,7 @@ def minor(matrix):
 
             temp_copy = temp_copy[:i] + temp_copy[i + 1:]
             for k in range(len(temp_copy)):
-                temp_copy[k] = temp_copy[k][:j] + temp_copy[k][j+1:]
+                temp_copy[k] = temp_copy[k][:j] + temp_copy[k][j + 1:]
 
             new_matrix[i][j] = determinant(temp_copy)
 
