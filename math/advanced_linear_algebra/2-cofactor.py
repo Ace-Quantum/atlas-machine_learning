@@ -117,10 +117,11 @@ def minor(matrix):
 
 
 def cofactor(matrix):
+    """Finds a cofactor"""
     valid_matrix(matrix)
 
     if len(matrix) == 1:
-        return 1
+        return matrix
 
     minor_matrix = minor(matrix)
 
