@@ -121,7 +121,7 @@ def cofactor(matrix):
     valid_matrix(matrix)
 
     if len(matrix) == 1:
-        return matrix
+        return [[1]]
 
     minor_matrix = minor(matrix)
 
