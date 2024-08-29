@@ -163,5 +163,23 @@ def inverse(matrix):
 
     valid_matrix(matrix)
 
-    if len(matrix) == 1:
-        return [[1]]
+    # if len(matrix) == 1:
+        # return [[1]]
+    
+    adjoint_matrix = adjugate(matrix)
+    det = determinant(matrix)
+
+    if det == 0:
+        return None
+
+    rows = len(matrix)
+    cols = len(matrix[0])
+
+    new_matrix = [[0.0 for _ in range(cols)] for _ in range(rows)]
+
+    for i in range(rows):
+        for j in range(cols):
+            new_matrix[i][j] = adjoint_matrix[i][j] / det
+
+    return new_matrix
+
