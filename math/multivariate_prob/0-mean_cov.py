@@ -16,6 +16,5 @@ def mean_cov(X):
     #     X_means.append(np.mean(X[i]))
 
     X_mean = np.mean(X, axis=0)
-    # X_cov = np.cov(X, ddof=1)
 
     return (X_mean, None)
