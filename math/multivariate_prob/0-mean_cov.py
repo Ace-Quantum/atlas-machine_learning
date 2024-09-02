@@ -9,16 +9,14 @@ import numpy as np
 def cov_val(x, y):
     """Helper to find the covariance"""
     
-    mean_x = sum(x) / float(len(x))
-    mean_y = sum(y) / float(len(y))
+    mean_x = np.mean(x)
+    mean_y = np.mean(y)
 
-    sub_x = [i - mean_x for i in x]
-    sub_y = [i - mean_y for i in y]
+    sub_x = x - mean_x
+    sub_y = y - mean_y
 
-    sum_value = sum([sub_y[i]*sub_x[i] for i in range(len(x))])
-    denom = float(len(x)-1)
+    cov = np.dot(sub_x, sub_y) / (len(x) - 1)
 
-    cov = sum_value/denom
     return cov
 
 def mean_cov(X):
@@ -32,8 +30,13 @@ def mean_cov(X):
 
     X_mean = np.mean(X, axis=0)
 
-    # X_mean = np.asarray(X_mean)
+    X_cov = np.zeros((X.shape[1], X.shape[1]))
 
-    X_cov = [[cov_val(a,b) for a in X] for b in X]
+    for i in range(X.shape[1]):
+        for j in range(i, X.shape[1]):
+            comb_cov = cov_val(X[:, i], X[:, j])
+
+            X_cov[i, j] = comb_cov
+            X_cov[j, i] = comb_cov
 
     return X_mean, X_cov
