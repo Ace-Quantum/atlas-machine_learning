@@ -11,6 +11,7 @@ def correlation(C):
 
     row_len = len(C)
 
-    for row in C:
-        if len(row) != row_len:
-            raise ValueError("C must be a 2D square matrix")
+    dim = C.shape[1]
+
+    if C.shape != (dim, dim):
+        raise ValueError("C must be a 2D square matrix")
