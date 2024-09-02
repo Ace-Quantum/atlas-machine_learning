@@ -15,4 +15,9 @@ class MultiNormal:
         if len(data[0]) < 2:
             raise ValueError("data must contain multiple data points")
 
-        self.mean = np.mean(data, axis=0)
+        self.mean = np.zeros(len(data))
+
+        for i in range(len(data)):
+            self.mean[i] = np.mean(data[i], axis=0)
+
+        self.mean = self.mean.reshape(1, -1)
