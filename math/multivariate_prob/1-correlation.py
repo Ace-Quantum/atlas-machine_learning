@@ -23,7 +23,7 @@ def correlation(C):
 
     for i in range(dim):
         for j in range(dim):
-            if i==j:
+            if i == j:
                 ret_matrix[i, j] = 1
             else:
                 ret_matrix[i, j] = C[i, j] / np.sqrt(C[i, i] * C[j, j])
