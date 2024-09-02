@@ -17,6 +17,7 @@ def cov_val(x, y):
 
     return cov
 
+
 class MultiNormal:
     """A class to hold the matrix mentioned above"""
 
