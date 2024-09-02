@@ -23,4 +23,4 @@ def mean_cov(X):
 
     X_mean = np.mean(X, axis=0)
 
-    return (X_mean, None)
+    return (np.ndarray(X_mean), None)
