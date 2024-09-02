@@ -4,6 +4,19 @@
 import numpy as np
 
 
+def cov_val(x, y):
+    """Helper to find the covariance"""
+
+    mean_x = np.mean(x)
+    mean_y = np.mean(y)
+
+    sub_x = x - mean_x
+    sub_y = y - mean_y
+
+    cov = np.dot(sub_x, sub_y) / (len(x) - 1)
+
+    return cov
+
 class MultiNormal:
     """A class to hold the matrix mentioned above"""
 
@@ -15,11 +28,18 @@ class MultiNormal:
         if len(data[0]) < 2:
             raise ValueError("data must contain multiple data points")
 
-        self.mean = np.zeros(len(data))
+        self.mean = np.zeros(data.shape[0])
 
-        for i in range(len(data)):
+        for i in range(data.shape[0]):
             self.mean[i] = np.mean(data[i], axis=0)
 
         self.mean = self.mean.reshape(-1, 1)
 
-        self.cov = None
+        self.cov = np.zeros((data.shape[0], data.shape[0]))
+
+        for i in range(data.shape[0]):
+            for j in range(data.shape[0]):
+                comb_cov = cov_val(data[i, :], data[j, :])
+
+                self.cov[i, j] = comb_cov
+                self.cov[j, i] = comb_cov
