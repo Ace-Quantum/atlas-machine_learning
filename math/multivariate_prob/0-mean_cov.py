@@ -18,7 +18,7 @@ def mean_cov(X):
     if not isinstance(X, np.ndarray) or len(X) > 2:
         raise TypeError("X must be a 2D numpy.ndarray")
     
-    if X[0] < 2:
+    if all(X[0] < 2):
         raise ValueError("X must contain multiple data points")
 
     X_mean = np.mean(X, axis=0)
