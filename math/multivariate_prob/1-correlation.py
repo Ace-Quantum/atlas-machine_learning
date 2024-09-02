@@ -19,7 +19,7 @@ def correlation(C):
 
     # ret_matrix = C.corrcoef()
 
-    ret_matrix = np.zeroes((dim, dim))
+    ret_matrix = np.zeros((dim, dim))
 
     for i in range(dim):
         for j in range(dim):
