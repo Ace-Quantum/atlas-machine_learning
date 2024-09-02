@@ -15,8 +15,14 @@ def mean_cov(X):
     # for i in range(len(num_data)):
     #     X_means.append(np.mean(X[i]))
 
+    if X[0] < 2:
+        raise ValueError("X must contain multiple data points")
+
+
     if not isinstance(X, np.ndarray) or len(X) > 2:
         raise TypeError("X must be a 2D numpy.ndarray")
+
+
 
     X_mean = np.mean(X, axis=0)
 
