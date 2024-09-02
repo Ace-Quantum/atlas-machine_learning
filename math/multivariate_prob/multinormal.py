@@ -3,10 +3,14 @@
 
 import numpy as np
 
+
 class MultiNormal:
+    """A class to hold the matrix mentioned above"""
+
     def __init__(self, data):
+        """Initialization"""
         if not isinstance(data, np.ndarray) or data.ndim != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
-        
+
         if len(data[1]) < 2:
             raise ValueError("data must contain multiple data points")
