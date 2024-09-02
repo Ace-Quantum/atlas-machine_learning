@@ -12,5 +12,7 @@ class MultiNormal:
         if not isinstance(data, np.ndarray) or data.ndim != 2:
             raise TypeError("data must be a 2D numpy.ndarray")
 
-        if len(data[1]) < 2:
+        if len(data[0]) < 2:
             raise ValueError("data must contain multiple data points")
+
+        self.mean = np.mean(data, axis=0)
