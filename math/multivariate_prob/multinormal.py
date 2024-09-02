@@ -20,6 +20,6 @@ class MultiNormal:
         for i in range(len(data)):
             self.mean[i] = np.mean(data[i], axis=0)
 
-        self.mean = self.mean.reshape(1, -1)
+        self.mean = self.mean.reshape(-1, 1)
 
         self.cov = None
