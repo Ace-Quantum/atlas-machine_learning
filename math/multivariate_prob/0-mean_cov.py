@@ -30,6 +30,8 @@ def mean_cov(X):
 
     X_mean = np.mean(X, axis=0)
 
+    X_mean = np.array(X_mean)
+
     X_cov = np.zeros((X.shape[1], X.shape[1]))
 
     for i in range(X.shape[1]):
@@ -38,5 +40,7 @@ def mean_cov(X):
 
             X_cov[i, j] = comb_cov
             X_cov[j, i] = comb_cov
+
+    X_mean = X_mean.reshape(1, -1)
 
     return X_mean, X_cov
