@@ -21,3 +21,5 @@ class MultiNormal:
             self.mean[i] = np.mean(data[i], axis=0)
 
         self.mean = self.mean.reshape(1, -1)
+
+        self.cov = None
