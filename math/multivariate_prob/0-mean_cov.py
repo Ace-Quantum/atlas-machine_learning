@@ -15,7 +15,7 @@ def mean_cov(X):
     # for i in range(len(num_data)):
     #     X_means.append(np.mean(X[i]))
 
-    if not isinstance(X, np.ndarray) or len(X) > 2:
+    if not isinstance(X, np.ndarray):
         raise TypeError("X must be a 2D numpy.ndarray")
     
     if len(X) < 2:
