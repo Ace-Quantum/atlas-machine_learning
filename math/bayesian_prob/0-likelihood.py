@@ -11,7 +11,7 @@ def likelihood(x, n, P):
     if not isinstance(n, int):
         raise ValueError("n must be a positive integer")
 
-    if not n >= 0:
+    if not n > 0:
         raise ValueError("n must be a positive integer")
 
     if x <= 0:
