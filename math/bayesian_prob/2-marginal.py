@@ -50,7 +50,7 @@ def intersection(x, n, P, Pr):
     return None
 
 
-def marginal(x, n, p, Pr):
+def marginal(x, n, P, Pr):
     """calculates marginal probability"""
     temp = intersection(x, n, P, Pr)
 
