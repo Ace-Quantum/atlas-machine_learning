@@ -37,7 +37,7 @@ def intersection(x, n, P, Pr):
     """calculates intersecting data points"""
     temp = likelihood(x, n, P)
 
-    if not isinstance(Pr, np.ndarray) or Pr.ndim != P.ndim:
+    if not isinstance(Pr, np.ndarray) or Pr.shape != P.shape:
         raise TypeError(
             "Pr must be a numpy.ndarray with the same shape as P")
 
