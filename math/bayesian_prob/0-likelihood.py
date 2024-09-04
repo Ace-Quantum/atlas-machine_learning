@@ -26,7 +26,8 @@ def likelihood(x, n, P):
     if not isinstance(P, np.ndarray):
         raise TypeError("P must be a 1D numpy.ndarray")
 
-    if not all(0 <= P[val] <= 1 for val in P):
+    all_in_range = all(0 <= P[val] <= 1 for val in P)
+    if not all_in_range:
         raise ValueError("All values in P must be in range [0, 1]")
 
     return None
