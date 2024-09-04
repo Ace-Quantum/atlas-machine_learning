@@ -8,14 +8,14 @@ def likelihood(x, n, P):
     """determine likelihood"""
 
     # Verifications
+    if x <= 0:
+        raise ValueError("x must be an integer that is greater than or equal to 0")
+
     if not isinstance(n, float):
         raise ValueError("n must be a positive integer")
 
-    if  not n >= 0:
+    if not n >= 0:
         raise ValueError("n must be a positive integer")
-
-    if x <= 0:
-        raise ValueError("x must be an integer that is greater than or equal to 0")
 
     if x > n:
         raise ValueError("x cannot be greater than n")
