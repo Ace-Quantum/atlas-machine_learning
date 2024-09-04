@@ -38,13 +38,12 @@ def intersection(x, n, P, Pr):
     """calculates intersecting data points"""
     temp = likelihood(x, n, P)
 
-    if not isinstance(Pr, np.ndarray) or Pr.ndim != P.ndim:
-        raise TypeError(
-            "Pr must be a numpy.ndarray with the same shape as P")
+    if not isinstance(Pr, np.ndarray) or Pr.shape != P.shape:
+        raise TypeError("Pr must be a numpy.ndarray with the same shape as P")
 
     if not all((Pr >= 0) & (Pr <= 1)):
         raise ValueError("All values in Pr must be in the range [0, 1]")
-    
+
     if np.sum(Pr) != 1:
         raise ValueError("Pr must sum to 1")
 
@@ -52,12 +51,14 @@ def intersection(x, n, P, Pr):
 
 
 def marginal(x, n, P, Pr):
-    """Defines marginal probability"""
+    """calculates marginal probability"""
+    temp = intersection(x, n, P, Pr)
 
     return None
 
 
 def posterior(x, n, P, Pr):
-    """determines hypotheticals"""
+    """Not a joke"""
+    temp = intersection(x, n, P, Pr)
 
     return None
