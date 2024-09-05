@@ -31,11 +31,19 @@ def likelihood(x, n, P):
     if not all((P >= 0) & (P <= 1)):
         raise ValueError("All values in P must be in the range [0, 1]")
 
-    P = np.asarray(P)
+    # P = np.asarray(P)
 
-    coeff = np.math.factorial(n) // (
-        np.math.factorial(x) * np.math.factorial(n - x))
+    likelihoods = []
 
-    likelihood = coeff * (P ** x) * ((1 - P) ** (n - x))
+    for p in P:
+
+        coeff = np.math.factorial(n) // (
+            np.math.factorial(x) * np.math.factorial(n - x))
+
+        likelihood = coeff * (P ** x) * ((1 - P) ** (n - x))
+
+        likelihoods.append(likelihood)
+
+    likelihood = np.array(likelihood)
 
     return likelihood
