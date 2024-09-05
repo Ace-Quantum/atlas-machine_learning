@@ -40,7 +40,7 @@ def likelihood(x, n, P):
         coeff = np.math.factorial(n) // (
             np.math.factorial(x) * np.math.factorial(n - x))
 
-        likelihood = coeff * (P ** x) * ((1 - P) ** (n - x))
+        likelihood = coeff * (p ** x) * ((1 - P) ** (n - x))
 
         likelihoods.append(likelihood)
 
