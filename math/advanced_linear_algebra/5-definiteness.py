@@ -24,7 +24,7 @@ def valid_matrix(matrix):
 def definiteness(matrix):
     """Returns the definiteness of a marix"""
     
-    if not isinstance(matrix, np.ndarray):
+    if isinstance(matrix, np.ndarray) == False:
         return TypeError("matrix must be a numpy.ndarray")
     
-    
+
