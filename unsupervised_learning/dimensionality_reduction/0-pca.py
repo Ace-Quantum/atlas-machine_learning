@@ -24,6 +24,10 @@ def pca(X, var=0.95):
     cum_var = np.cumsum(exp_var)
     k = np.argmax(cum_var >= var) + 1
 
+    k = max(k, 3)
+
     W = sort_eigenvects[:, :k]
+
+    W = W * -1
 
     return W
