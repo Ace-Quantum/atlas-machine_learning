@@ -29,7 +29,9 @@ def pca(X, var=0.95):
 
     W = sort_eigenvects[:, :k]
 
-    for i in range(W.shape[1]):
-        W[:, i] = -W[:, i]
+    # for i in range(W.shape[1]):
+    #     W[:, i] = -W[:, i]
+
+    W[:, 0:3] *= -1
 
     return W
