@@ -12,7 +12,7 @@ def variance(X, C):
         return None
     if X.shape[1] != C.shape[1]:
         return None
-    
+
     distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2) ** 2
 
     min_dis = np.min(distances, axis=1)
