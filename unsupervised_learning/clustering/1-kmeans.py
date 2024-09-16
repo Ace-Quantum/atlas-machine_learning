@@ -46,7 +46,9 @@ def kmeans(X, k, iterations=1000):
             if np.any(clss == i):
                 new_C[i] = X[clss == i].mean(axis=0)
             else:
-                new_C[i] = np.random.uniform(low=X.min(axis=0), high=X.max(axis=0), size=(d,))
+                new_C[i] = np.random.uniform(
+                    low=X.min(axis=0), high=X.max(axis=0), size=(d,)
+                )
 
         if np.all(C == new_C):
             break
