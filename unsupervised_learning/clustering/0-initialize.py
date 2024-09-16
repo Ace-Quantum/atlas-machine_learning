@@ -11,7 +11,7 @@ def initialize(X, k):
         return None
     if not isinstance(k, int) or k <= 0:
         return None
-    if len(X.shape < 2):
+    if len(X.shape) < 2:
         return None
     
     n, d = X.shape
