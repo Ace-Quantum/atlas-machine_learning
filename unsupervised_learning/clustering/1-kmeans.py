@@ -2,7 +2,6 @@
 """Here's some documentation"""
 
 import numpy as np
-initialize = __import__('0-initialize').initialize
 
 
 def initialize(X, k):
@@ -26,21 +25,23 @@ def initialize(X, k):
 
     return centroids
 
+
 def kmeans(X, k, iterations=1000):
     """Documentation"""
-    
+
     C = initialize(X, k)
     if C is None:
         return None, None
-    
+
     n, d = X.shape
-    
+
     for _ in range(iterations):
         clss = np.argmin(np.linalg.norm(X[:, np.newaxis] - C, axis=2), axis=1)
 
         # calculating new centroids
-        new_C = np.array([X[clss == i].mean(axis=0) if np.any(
-            clss ==i) else C[i] for i in range(k)])
+        new_C = np.array(
+            [X[clss == i].mean(axis=0) if np.any(clss == i) else C[i] for i in range(k)]
+        )
 
         if np.all(C == new_C):
             break
