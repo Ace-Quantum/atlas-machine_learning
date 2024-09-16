@@ -36,12 +36,17 @@ def kmeans(X, k, iterations=1000):
     n, d = X.shape
 
     for _ in range(iterations):
-        clss = np.argmin(np.linalg.norm(X[:, np.newaxis] - C, axis=2), axis=1)
+        distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+        clss = np.argmin(distances, axis=1)
 
         # calculating new centroids
-        new_C = np.array(
-            [X[clss == i].mean(axis=0) if np.any(clss == i) else C[i] for i in range(k)]
-        )
+        new_C = np.zeros((k, d))
+
+        for i in range(k):
+            if np.any(clss == i):
+                new_C[i] = X[clss == i].mean(axis=0)
+            else:
+                new_C[i] = np.random.uniform(low=X.min(axis=0), high=X.max(axis=0), size=(d,))
 
         if np.all(C == new_C):
             break
