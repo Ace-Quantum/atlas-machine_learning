@@ -2,7 +2,8 @@
 """Here's some documentation"""
 
 import numpy as np
-pdf = __import__('5-pdf').pdf
+
+pdf = __import__("5-pdf").pdf
 
 
 def expectation(X, pi, m, S):
@@ -28,9 +29,9 @@ def expectation(X, pi, m, S):
 
     total_probs = np.sum(g, axis=0)
 
-    if np.any(total_probs ==0):
+    if np.any(total_probs == 0):
         return None, None
-    
+
     g /= total_probs
 
     log_likelihood = np.sum(np.log(total_probs))
