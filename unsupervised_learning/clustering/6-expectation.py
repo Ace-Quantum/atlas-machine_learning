@@ -7,6 +7,12 @@ pdf = __import__('5-pdf').pdf
 
 def expectation(X, pi, m, S):
     """Documentation"""
+
+    if not isinstance(X, np.ndarray):
+        return None, None
+    
+    
+
     n, d = X.shape
     k = pi.shape[0]
 
