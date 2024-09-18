@@ -53,7 +53,7 @@ def pca(X, var=0.95):
 
     W = sort_eigenvects[:, :num_comp + 1]
 
-    if len(W.shape) == 3:
+    if len(W.shape) == 2:
         W[:, -1] *= -1
 
     return W
