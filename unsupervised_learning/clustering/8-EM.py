@@ -23,7 +23,7 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
     if not isinstance(verbose, bool):
         return None, None, None, None, None
     
-    pi, m, S = initialize(X, k):
+    pi, m, S = initialize(X, k)
     if pi is None or m is None or S is None:
         return None, None, None, None, None
     
