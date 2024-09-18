@@ -29,30 +29,34 @@ def initialize(X, k):
 def kmeans(X, k, iterations=1000):
     """Documentation"""
 
-    if not isinstance(X, np.ndarray):
-        return None
-    if not isinstance(k, int) or k <= 0:
-        return None
-    if len(X.shape) != 2:
-        return None
+    C = initialize(X, k)
+    if C is None:
+        return None, None
 
     n, d = X.shape
-    if n == 0 or d == 0:
-        return None
-
-    C = initialize(X, k)
-
-    # assigning clusters
-    distances = np.sqrt(np.sum((X[:, np.newaxis] - C) ** 2, axis=2))
-    clss = np.argmin(distances, axis=1)
 
     for _ in range(iterations):
-        old_C = np.copy(C)
+        distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+        clss = np.argmin(distances, axis=1)
 
-        # update the centroids
-        C = np.array([np.mean(X[clss == i], axis=0) for i in range(k)])
+        # calculating new centroids
+        new_C = np.zeros((k, d))
 
-        if np.all(old_C == C):
+        for i in range(k):
+            if np.any(clss == i):
+                new_C[i] = X[clss == i].mean(axis=0)
+            else:
+                new_C[i] = np.random.uniform(
+                    low=X.min(axis=0), high=X.max(axis=0), size=(d,)
+                )
+
+        if np.all(C == new_C):
             break
+
+        C = new_C
+
+    # return_clusters = ~np.all(new_C == 0, axis=1)
+    # C = C[return_clusters]
+    # clss = clss[return_clusters]
 
     return C, clss
