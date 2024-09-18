@@ -10,7 +10,7 @@ def expectation(X, pi, m, S):
 
     if not isinstance(X, np.ndarray) or not isinstance(pi, np.ndarray):
         return None, None
-    if not len(X.shape) == 2 or not len(pi.shape) == 2:
+    if not len(X.shape) == 2:
         return None, None
 
     n, d = X.shape
