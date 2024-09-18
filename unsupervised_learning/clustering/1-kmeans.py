@@ -56,7 +56,7 @@ def kmeans(X, k, iterations=1000):
         # calculating new centroids
         # new_C = np.zeros((k, d))
 
-        # for i in range(k):
+
         #     cluster_points = X[clss == i]
 
         #     if len(cluster_points) == 0:
