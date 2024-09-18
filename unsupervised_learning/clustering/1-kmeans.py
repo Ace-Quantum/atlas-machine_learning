@@ -4,7 +4,7 @@
 import numpy as np
 
 
-def initialize(X, k):
+def kmeans(X, k, iterations=1000):
     """Documentation"""
 
     if not isinstance(X, np.ndarray):
@@ -18,42 +18,60 @@ def initialize(X, k):
     if n == 0 or d == 0:
         return None
 
-    min_values = X.min(axis=0)
-    max_values = X.max(axis=0)
+    min_values = np.min(X, axis=0)
+    max_values = np.max(X, axis=0)
 
-    centroids = np.random.uniform(min_values, max_values, size=(k, d))
+    C = np.random.uniform(min_values, max_values, size=(k, d))
 
-    return centroids
+    # return centroids
 
 
-def kmeans(X, k, iterations=1000):
-    """Documentation"""
-
-    C = initialize(X, k)
+    # C = initialize(X, k)
     if C is None:
         return None, None
 
-    n, d = X.shape
+    # n, d = X.shape
+
+    clss = np.zeros(n)
 
     for _ in range(iterations):
         distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
         clss = np.argmin(distances, axis=1)
 
-        # calculating new centroids
-        new_C = np.zeros((k, d))
+        C_new = np.zeros((k, d))
 
-        for i in range(k):
-            if np.any(clss == i):
-                new_C[i] = X[clss == i].mean(axis=0)
+        for j in range(k):
+            cluster_points = X[clss == j]
+
+            if np.any(clss == j):
+                C_new[j] = cluster_points.mean(axis=0)
             else:
-                new_C[i] = np.random.uniform(
-                    low=X.min(axis=0), high=X.max(axis=0), size=(d,)
-                )
+                C_new[j] = np.random.uniform(min_values, max_values, size=(d))
 
-        if np.all(C == new_C):
+        if np.all(C_new == C):
             break
 
-        C = new_C
+        C = C_new
+
+        # calculating new centroids
+        # new_C = np.zeros((k, d))
+
+        # for i in range(k):
+        #     cluster_points = X[clss == i]
+
+        #     if len(cluster_points) == 0:
+        #         C[i] = np.random.uniform(min_values, max_values, size=d)
+        #     else:
+        #         C[i] = np.mean(cluster_points, axis=0)
+            # -------- attempts to update centroids --------
+                
+            #     if np.any(clss == i):
+            #         new_clss[i] = X[clss == i].mean(axis=0)
+            #     else:
+            #         new_clss[i] = np.random.uniform(
+            #             low=X.min(axis=0), high=X.max(axis=0), size=(d,)
+            #         )
+            # C = new_clss
 
     # return_clusters = ~np.all(new_C == 0, axis=1)
     # C = C[return_clusters]
