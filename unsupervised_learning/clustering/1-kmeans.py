@@ -29,6 +29,17 @@ def initialize(X, k):
 def kmeans(X, k, iterations=1000):
     """Documentation"""
 
+    if not isinstance(X, np.ndarray):
+        return None
+    if not isinstance(k, int) or k <= 0:
+        return None
+    if len(X.shape) != 2:
+        return None
+
+    n, d = X.shape
+    if n == 0 or d == 0:
+        return None
+
     C = initialize(X, k)
 
     # assigning clusters
