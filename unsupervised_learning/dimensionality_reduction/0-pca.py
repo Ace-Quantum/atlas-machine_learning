@@ -23,10 +23,10 @@ def pca(X, var=0.95):
     sort_eigenvects = eigenvects[:, ord_of_imp]
 
     # -------- Attempts to compute cumvar -----------
-    
+
     total_var = np.sum(sort_eigenvals)
-    cum_var  =np.cumsum(sort_eigenvals) / total_var
-    
+    cum_var = np.cumsum(sort_eigenvals) / total_var
+
     # exp_var = sort_eigenvals / np.sum(sort_eigenvals)
 
     # cum_var = np.cumsum(exp_var)
@@ -43,7 +43,7 @@ def pca(X, var=0.95):
     num_comp = np.argmax(cum_var >= var) + 1
 
     # num_comp = np.searchsorted(cum_var, var) + 1
-    
+
     # W[0] = -W[0]
 
     # for i in range(W.shape[1]):
@@ -51,7 +51,7 @@ def pca(X, var=0.95):
 
     # W[0, 2] *= -1
 
-    W = sort_eigenvects[:, :num_comp + 1]
+    W = sort_eigenvects[:, : num_comp + 1]
 
     if W.shape[1] == 3:
         W[:, -1] *= -1
