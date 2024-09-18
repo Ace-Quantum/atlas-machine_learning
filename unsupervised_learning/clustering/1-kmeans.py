@@ -4,41 +4,44 @@
 import numpy as np
 
 
+def initialize(X, k):
+    """Documentation"""
+
+    if not isinstance(X, np.ndarray):
+        return None
+    if not isinstance(k, int) or k <= 0:
+        return None
+    if len(X.shape) != 2:
+        return None
+
+    n, d = X.shape
+    if n == 0 or d == 0:
+        return None
+
+    min_values = X.min(axis=0)
+    max_values = X.max(axis=0)
+
+    centroids = np.random.uniform(min_values, max_values, size=(k, d))
+
+    return centroids
+
+
 def kmeans(X, k, iterations=1000):
     """Documentation"""
 
-    if not isinstance(X, np.ndarray) or X.ndim != 2:
-        return None, None
-    
-    n, d = X.shape
+    C = initialize(X, k)
 
-    C = np.random.uniform(low=np.min(X, axis=0), high=np.max(X, axis=0), size=(k, d))
+    # assigning clusters
+    distances = np.sqrt(np.sum((X[:, np.newaxis] - C) ** 2, axis=2))
+    clss = np.argmin(distances, axis=1)
 
-    clss = np.zeros(n)
+    for _ in range(iterations):
+        old_C = np.copy(C)
 
-    for i in range(iterations):
-        distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+        # update the centroids
+        C = np.array([np.mean(X[clss == i], axis=0) for i in range(k)])
 
-        clss = np.argmin(distances, axis=1)
-
-        C_new = np.zeros((k, d))
-
-        for j in range(k):
-            cluster_points = X[clss == j]
-
-            if np.any(clss == j):
-                C_new[j] = cluster_points.mean(axis=0)
-
-            else:
-                C_new[j] = np.random.uniform(
-                    low=np.min(X, axis=0),
-                    high=np.max(X, axis=0),
-                    size=(d)
-                )
-        
-        if np.all(C_new == C):
+        if np.all(old_C == C):
             break
-
-        C = C_new
 
     return C, clss
