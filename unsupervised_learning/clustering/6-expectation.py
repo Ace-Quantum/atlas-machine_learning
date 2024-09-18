@@ -22,6 +22,10 @@ def expectation(X, pi, m, S):
     n, d = X.shape
     k = pi.shape[0]
 
+    if not d == m.shape[1]: #or not d== S.shape[1]:
+        None, None
+    # if not d == S.shape[2]
+
     g = np.zeros((k, n))
 
     for i in range(k):
