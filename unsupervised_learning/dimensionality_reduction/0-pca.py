@@ -24,8 +24,8 @@ def pca(X, var=0.95):
 
     # -------- Attempts to compute cumvar -----------
     
-    total_var = np.sum(eigenvals)
-    cum_var  =np.cumsum(eigenvals) / total_var
+    total_var = np.sum(sort_eigenvals)
+    cum_var  =np.cumsum(sort_eigenvals) / total_var
     
     # exp_var = sort_eigenvals / np.sum(sort_eigenvals)
 
@@ -51,6 +51,6 @@ def pca(X, var=0.95):
 
     # W[0, 2] *= -1
 
-    W = eigenvects[:, :num_comp + 1]
+    W = sort_eigenvects[:, :num_comp + 1]
 
     return W
