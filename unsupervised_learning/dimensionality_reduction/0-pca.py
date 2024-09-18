@@ -29,9 +29,12 @@ def pca(X, var=0.95):
 
     W = sort_eigenvects[:, :k]
 
+    W = -W
+
     # for i in range(W.shape[1]):
     #     W[:, i] = -W[:, i]
 
-    W[:, 0:3] *= -1
+    # Attempting to sign switch specific parts of the matrix
+    # W[:, 0:2] *= -1
 
     return W
