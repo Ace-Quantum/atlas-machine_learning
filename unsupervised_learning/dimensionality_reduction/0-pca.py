@@ -15,29 +15,42 @@ def pca(X, var=0.95):
 
     cov_matrix = np.cov(X.T)
 
-    eigenvals, eigenvects = np.linalg.eig(cov_matrix)
+    eigenvals, eigenvects = np.linalg.eigh(cov_matrix)
 
-    ord_of_imp = np.argsort(-eigenvals)#[::-1]
+    ord_of_imp = np.argsort(eigenvals)[::-1]
 
     sort_eigenvals = eigenvals[ord_of_imp]
     sort_eigenvects = eigenvects[:, ord_of_imp]
 
+    # -------- Attempts to compute cumvar -----------
+    
+    total_var = np.sum(eigenvals)
+    cum_var  =np.cumsum(eigenvals) / total_var
+    
     # exp_var = sort_eigenvals / np.sum(sort_eigenvals)
 
     # cum_var = np.cumsum(exp_var)
     # k = np.argmax(cum_var >= var) + 1
 
     # k = 2
-    k = int(np.sum(sort_eigenvals >= var))
+    # k = int(np.sum(sort_eigenvals >= var))
 
-    W = sort_eigenvects[:, :k]
+    # W = sort_eigenvects[:, :k]
 
-    W = -W
+    # -------- Attempts to sign switch specific parts of the matrix -------
+    # -------- or just generally setting up the matrix --------
+
+    num_comp = np.argmax(cum_var >= var) + 1
+
+    # num_comp = np.searchsorted(cum_var, var) + 1
+    
+    # W[0] = -W[0]
 
     # for i in range(W.shape[1]):
     #     W[:, i] = -W[:, i]
 
-    # Attempting to sign switch specific parts of the matrix
-    # W[:, 0:2] *= -1
+    # W[0, 2] *= -1
+
+    W = eigenvects[:, :num_comp + 1]
 
     return W
