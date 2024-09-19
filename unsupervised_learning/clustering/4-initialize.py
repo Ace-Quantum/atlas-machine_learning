@@ -8,4 +8,9 @@ kmeans = __import__('1-kmeans').kmeans
 
 def initialize(X, k):
     """Documentation"""
-    return None
+    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
+        return None, None, None
+    if not isinstance(k, int) or k <= 0:
+        return None, None, None
+
+    return None, None, None
