@@ -4,8 +4,8 @@
 import sklearn.cluster
 
 def kmeans(X, k):
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None
+    # if not isinstance(X, np.ndarray) or len(X.shape) != 2:
+    #     return None, None
     if not isinstance(k, int) or k <= 0 or k > X.shape[0]:
         return None, None
     
