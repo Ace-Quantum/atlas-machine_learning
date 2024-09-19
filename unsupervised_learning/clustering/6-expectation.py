@@ -30,7 +30,12 @@ def expectation(X, pi, m, S):
     g = np.zeros((k, n))
 
     for i in range(k):
-        g[i] = pi[i] * pdf(X, m[i], S[i])
+        try:
+            g[i] = pi[i] * pdf(X, m[i], S[i])
+            if np.isnan(g[i]).any() or np.isinf(g[i]).any():
+                return None, None
+        except Exception:
+            return None, None
 
     total_probs = np.sum(g, axis=0)
 
