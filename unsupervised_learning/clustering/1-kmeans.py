@@ -29,6 +29,9 @@ def initialize(X, k):
 def kmeans(X, k, iterations=1000):
     """Documentation"""
 
+    if k <= 0 or not isinstance(k, int):
+        return None, None
+
     C = initialize(X, k)
     if C is None:
         return None, None
