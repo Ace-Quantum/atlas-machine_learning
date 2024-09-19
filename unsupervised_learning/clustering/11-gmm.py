@@ -3,12 +3,13 @@
 
 import sklearn.mixture
 
+
 def gmm(X, k):
     """Good Mythical Morning"""
 
     if not isinstance(k, int) or k <= 0 or k > X.shape[0]:
         return None, None, None, None, None
-    
+
     gmm_model = sklearn.mixture.GaussianMixture(n_components=k)
     gmm_model.fit(X)
 
