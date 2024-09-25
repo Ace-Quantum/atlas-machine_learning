@@ -16,9 +16,9 @@ def markov_chain(P, s, t=1):
     """Documentation"""
     stepped_matrix = np.array(matrix_power(P, t))
 
-    print(stepped_matrix)
+    # print(stepped_matrix)
 
-    print(type(stepped_matrix))
+    # print(type(stepped_matrix))
 
     # ret_array = []
 
@@ -29,9 +29,9 @@ def markov_chain(P, s, t=1):
     # for i in range(len(P)):
         # ret_array[i] = stepped_matrix[0, i]
 
-    print(ret_array)
+    # print(ret_array)
 
-    print(type(ret_array))
+    # print(type(ret_array))
 
     # ret_matrix = np.dot(stepped_matrix)
 
@@ -39,4 +39,4 @@ def markov_chain(P, s, t=1):
 
     # return np.dot(stepped_matrix, s)
 
-    # return stepped_matrix[0]
+    return ret_array
