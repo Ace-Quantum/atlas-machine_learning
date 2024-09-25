@@ -4,13 +4,16 @@ https://www.youtube.com/watch?v=WT6jI8UgROI"""
 
 import numpy as np
 
+
 def matrix_power(M, iter):
+    """Recursive function to get the state after iter steps"""
     if iter == 0:
         return np.identity(len(M))
     elif iter == 1:
         return M
     else:
         return np.dot(M, matrix_power(M, iter - 1))
+
 
 def markov_chain(P, s, t=1):
     """Documentation"""
@@ -27,7 +30,7 @@ def markov_chain(P, s, t=1):
     # ret_array = np.zeros(len(P))
 
     # for i in range(len(P)):
-        # ret_array[i] = stepped_matrix[0, i]
+    # ret_array[i] = stepped_matrix[0, i]
 
     # print(ret_array)
 
