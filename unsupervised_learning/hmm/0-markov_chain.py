@@ -14,12 +14,29 @@ def matrix_power(M, iter):
 
 def markov_chain(P, s, t=1):
     """Documentation"""
-    stepped_matrix = matrix_power(P, t)
+    stepped_matrix = np.array(matrix_power(P, t))
 
-    # print(stepped_matrix[0])
+    print(stepped_matrix)
+
+    print(type(stepped_matrix))
+
+    # ret_array = []
+
+    ret_array = np.dot(s, stepped_matrix)
+
+    # ret_array = np.zeros(len(P))
+
+    # for i in range(len(P)):
+        # ret_array[i] = stepped_matrix[0, i]
+
+    print(ret_array)
+
+    print(type(ret_array))
 
     # ret_matrix = np.dot(stepped_matrix)
 
-    # return np.dot(stepped_matrix[:, 0], s)
+    # spec_matrix = stepped_matrix[:, 0]
 
-    return stepped_matrix[0]
+    # return np.dot(stepped_matrix, s)
+
+    # return stepped_matrix[0]
