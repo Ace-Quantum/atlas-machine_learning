@@ -27,3 +27,4 @@ def regular(P):
 
     # vec_ones = np.ones(dim)
 
+    return None
