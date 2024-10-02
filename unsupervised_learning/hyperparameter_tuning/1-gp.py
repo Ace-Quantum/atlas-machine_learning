@@ -20,7 +20,7 @@ class GaussianProcess:
         def kernel(self, X1, X2):
             """Return covariance matrix"""
             return None
-        
+
         def predict(self, X_s):
             """predicts the mean and st.dev of points
             in a Gaussian process"""
