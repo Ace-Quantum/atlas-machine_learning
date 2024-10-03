@@ -25,6 +25,7 @@ class BayesianOptimization:
 
         self.f = f
         self.gp = GP(self)
+        self.l = l
         X_s = None
         xsi = None
         minimize = None

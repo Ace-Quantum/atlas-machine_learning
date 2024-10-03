@@ -25,7 +25,7 @@ class GaussianProcess:
             """predicts the mean and st.dev of points
             in a Gaussian process"""
             return None
-        
+
         def update(self, X_new, Y_new):
             """Updates Gaussian Process"""
             return None
