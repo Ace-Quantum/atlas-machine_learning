@@ -15,8 +15,19 @@ class GaussianProcess:
         self.l = l
         self.sigma_f = sigma_f
         # vvv to be changed
-        self.K = None
+        self.K = self.kernel(self.X, self.Y)
 
-        def kernel(self, X1, X2):
-            """Return covariance matrix"""
-            return None
+    def kernel(self, X1, X2):
+        """Return covariance matrix"""
+        m, n = X1.shape[0], X2.shape[0]
+
+        X1 = X1.reshape(m, 1)
+        X2 = X2.reshape(n, 1)
+
+        pair_diff = X1 - X2.T
+
+        sq_eucl_dist = np.sum(pair_diff ** 2, axis=1)
+
+        k = self.sigma_f**2 * np.exp(-sq_eucl_dist / (2 * self.l**2))
+
+        return k
