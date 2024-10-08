@@ -20,9 +20,6 @@ class GaussianProcess:
     def kernel(self, X1, X2):
         """Return covariance matrix"""
 
-        # sq_dist = np.sum(X1**2, 1).reshape(-1, 1) + np.sum(X2**2, 1) - 2 * np.dot(X1, X2.T)
-        # return self.sigma_f**2 * np.exp(-0.5 / self.l**2 * sq_dist)
-
         m, _ = X1.shape
         n, _ = X2.shape
 
@@ -31,6 +28,7 @@ class GaussianProcess:
         for i in range(m):
             for j in range(n):
                 diff = np.linalg.norm(X1[i] - X2[j])
-                k[i, j] = (self.sigma_f ** 2 * np.exp(-(diff**2) / (2 * self.l**2)))
+                k[i, j] = self.sigma_f**2 * np.exp(
+                    -(diff**2) / (2 * self.l**2))
 
         return k
