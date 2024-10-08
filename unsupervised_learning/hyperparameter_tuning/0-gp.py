@@ -19,15 +19,29 @@ class GaussianProcess:
 
     def kernel(self, X1, X2):
         """Return covariance matrix"""
-        m, n = X1.shape[0], X2.shape[0]
 
-        X1 = X1.reshape(m, 1)
-        X2 = X2.reshape(n, 1)
+        sq_dist = 
 
-        pair_diff = X1 - X2.T
 
-        sq_eucl_dist = np.sum(pair_diff ** 2, axis=1)
+        # vvvvv attempt 2
+        # X1_sq = np.sum(X1**2, axis=1).reshape(-1, 1)
 
-        k = self.sigma_f**2 * np.exp(-sq_eucl_dist / (2 * self.l**2))
+        # X2_sq = np.sum(X2**2, axis=1)
+
+        # cross = 2 * np.dot(X1, X2.T)
+
+        # sq_dist = X1_sq + X2_sq - cross
+
+        # vvvvv attempt 1
+        # m, n = X1.shape[0], X2.shape[0]
+
+        # X1 = X1.reshape(m, 1)
+        # X2 = X2.reshape(n, 1)
+
+        # pair_diff = X1 - X2.T
+
+        # sq_eucl_dist = np.sum(pair_diff ** 2, axis=1)
+
+        # k = self.sigma_f**2 * np.exp(-0.5 / self.l**2 * sq_dist)
 
         return k
