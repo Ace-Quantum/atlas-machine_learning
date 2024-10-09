@@ -45,5 +45,6 @@ class GaussianProcess:
         mu_s = Kernel_s.dot(Kernel_inv).dot(self.Y).reshape(-1)
 
         sigma_s = Kernel_s_s - Kernel_s.dot(Kernel_inv).dot(Kernel_s.T)
+        sigma_s = np.diag(sigma_s)
 
-        return mu_s, np.sqrt(np.diag(sigma_s))
+        return mu_s, sigma_s
