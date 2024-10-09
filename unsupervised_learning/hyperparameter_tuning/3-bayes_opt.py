@@ -24,8 +24,8 @@ class BayesianOptimization:
     ):
 
         self.f = f
-        self.gp = GP(self)
+        self.gp = GP(X_init, Y_init, l=1, sigma_f=sigma_f)
         self.l = l
-        X_s = None
-        xsi = None
-        minimize = None
+        self.X_s = np.linspace(bounds[0], bounds[1], ac_samples).reshape(-1, 1)
+        self.xsi = xsi
+        self.minimize = minimize
