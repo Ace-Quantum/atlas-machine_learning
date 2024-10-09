@@ -41,7 +41,7 @@ class BayesianOptimization:
             imp = (f_best - mu_s) - self.xsi
         else:
             f_best = np.max(self.gp.Y)
-            imp = (mu - y) - self.xsi
+            imp = (mu_s - y) - self.xsi
 
         with np.errstate(divide="warn"):
             Z = imp / sigma_s
