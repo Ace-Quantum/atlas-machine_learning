@@ -4,7 +4,7 @@ Bayesian Optimization"""
 
 import numpy as np
 
-GP = __import__('2-gp').GaussianProcess
+GP = __import__("2-gp").GaussianProcess
 from scipy.stats import norm
 
 
@@ -32,14 +32,23 @@ class BayesianOptimization:
         self.minimize = minimize
 
     def acquisition(self):
-        mu_s = self.gp.predict(self.X_s)[0]
+        """Documentation"""
+        mu_s, sigma_s = self.gp.predict(self.X_s)
 
-        sigma_s = self.gp.predict(self.X_s)[1]
+        sigma_s = np.maximum(sigma_s, 1e-9)
 
-        Exp_Imp = mu_s - self.xsi + sigma_s * norm.cdf((self.xsi - mu_s) / sigma_s)
+        if self.minimize:
+            f_best = np.min(self.gp.Y)
+        else:
+            f_best = np.max(self.gp.Y)
 
-        max_Exp_Imp_idx = np.argmax(Exp_Imp)
+        with np.errstate(divide="warn"):
+            Z = (mu_s - f_best - self.xsi) / sigma_s
+            ei = (mu_s - f_best - self.xsi) * norm.cdf(Z) + sigma_s * norm.pdf(Z)
 
-        X_next = self.X_s[max_Exp_Imp_idx]
+        ei[sigma_s == 0.0] = 0.0
 
-        return X_next, Exp_Imp
+        max_ei_idx = np.argmax(ei)
+        X_next = self.X_s[max_ei_idx]
+
+        return X_next, ei
