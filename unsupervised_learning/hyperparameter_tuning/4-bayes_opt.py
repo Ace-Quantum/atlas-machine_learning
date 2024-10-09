@@ -4,7 +4,8 @@ Bayesian Optimization"""
 
 import numpy as np
 
-GP = __import__("2-gp").GaussianProcess
+GP = __import__('2-gp').GaussianProcess
+from scipy.stats import norm
 
 
 class BayesianOptimization:
@@ -22,13 +23,23 @@ class BayesianOptimization:
         xsi=0.01,
         minimize=True,
     ):
-        """Idk something is wrong here but I'm doing what I can"""
+
         self.f = f
-        self.gp = GP(self)
-        X_s = None
-        xsi = None
-        minimize = None
+        self.gp = GP(X_init, Y_init, l=l, sigma_f=sigma_f)
+        self.l = l
+        self.X_s = np.linspace(bounds[0], bounds[1], ac_samples).reshape(-1, 1)
+        self.xsi = xsi
+        self.minimize = minimize
 
     def acquisition(self):
-        """calculates the next best sample location"""
-        return None
+        mu_s = self.gp.predict(self.X_s)[0]
+
+        sigma_s = self.gp.predict(self.X_s)[1]
+
+        Exp_Imp = mu_s - self.xsi + sigma_s * norm.cdf((self.xsi - mu_s) / sigma_s)
+
+        max_Exp_Imp_idx = np.argmax(Exp_Imp)
+
+        X_next = self.X_s[max_Exp_Imp_idx]
+
+        return X_next, Exp_Imp
