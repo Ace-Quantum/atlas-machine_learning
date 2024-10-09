@@ -44,7 +44,8 @@ class BayesianOptimization:
 
         with np.errstate(divide="warn"):
             Z = (mu_s - f_best - self.xsi) / sigma_s
-            ei = (mu_s - f_best - self.xsi) * norm.cdf(Z) + sigma_s * norm.pdf(Z)
+            ei = (mu_s - f_best - self.xsi) * norm.cdf(
+                Z) + sigma_s * norm.pdf(Z)
 
         ei[sigma_s == 0.0] = 0.0
 
