@@ -38,13 +38,14 @@ class BayesianOptimization:
 
         if self.minimize:
             f_best = np.min(self.gp.Y)
+            imp = (f_best - mu_s) - self.xsi
         else:
             f_best = np.max(self.gp.Y)
+            imp = (mu - y) - self.xsi
 
         with np.errstate(divide="warn"):
-            Z = (mu_s - f_best - self.xsi) / sigma_s
-            ei = (mu_s - f_best - self.xsi) * norm.cdf(
-                Z) + sigma_s * norm.pdf(Z)
+            Z = imp / sigma_s
+            ei = imp * norm.cdf(Z) + sigma_s * norm.pdf(Z)
 
         ei[sigma_s == 0.0] = 0.0
 
