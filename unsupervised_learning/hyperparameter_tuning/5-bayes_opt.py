@@ -4,7 +4,6 @@ Bayesian Optimization"""
 
 import numpy as np
 from scipy.stats import norm
-
 GP = __import__("2-gp").GaussianProcess
 
 
@@ -39,13 +38,14 @@ class BayesianOptimization:
 
         if self.minimize:
             f_best = np.min(self.gp.Y)
+            imp = (f_best - mu_s) - self.xsi
         else:
             f_best = np.max(self.gp.Y)
+            imp = (mu_s - y) - self.xsi
 
         with np.errstate(divide="warn"):
-            Z = (mu_s - f_best - self.xsi) / sigma_s
-            ei = (mu_s - f_best - self.xsi) * norm.cdf(
-                Z) + sigma_s * norm.pdf(Z)
+            Z = imp / sigma_s
+            ei = imp * norm.cdf(Z) + sigma_s * norm.pdf(Z)
 
         ei[sigma_s == 0.0] = 0.0
 
@@ -55,5 +55,27 @@ class BayesianOptimization:
         return X_next, ei
 
     def optimize(self, iterations=100):
-        """point scraping"""
-        return None
+        """Optomatron"""
+
+        for i in range(iterations):
+            X_next, _ = self.acquisition()
+
+            if np.any(np.isclose(X_next, self.gp.X)):
+                break
+
+            Y_next = self.f(X_next)
+
+            self.gp.X = np.vstack([self.gp.X, X_next.reshape(-1, 1)])
+            self.gp.Y = np.vstack([self.gp.Y, Y_next.reshape(-1, 1)])
+
+            self.gp.K = self.gp.kernel(self.gp.X, self.gp.X)
+
+        if self.minimize:
+            idx_opt = np.argmin(self.gp.Y)
+        else:
+            idx_opt = np.argmax(self.gp.Y)
+
+        X_opt = self.gp.X[idx_opt]
+        Y_opt = self.gp.Y[idx_opt]
+
+        return X_opt, Y_opt
