@@ -19,7 +19,7 @@ def autoencoder(input_dims, filters, latent_dims):
     # encoded = keras.layers.Conv2D(
         # latent_dims[0], (3, 3), padding="valid")(encoded)
 
-    encoder = keras.Model(in_layer, encoded)
+    encoder = keras.Model(in_layer, latent)
 
     # decoder
     decoded_in_layer = keras.Input(shape=latent_dims)
