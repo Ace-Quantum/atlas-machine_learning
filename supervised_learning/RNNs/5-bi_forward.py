@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """class constructor for a bidirectional cell"""
 
+import numpy as np
+
 
 class BidirectionalCell:
     """So this is interesting,
