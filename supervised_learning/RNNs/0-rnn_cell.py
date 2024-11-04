@@ -33,7 +33,7 @@ class RNNCell:
 
     def forward(self, h_prev, x_t):
         """Forward propogation
-        self: truly the most important
+        self: truly the most imp-ortant
         h_prev - previous hidden state
         x_t - input data
         h_next - new hidden state
