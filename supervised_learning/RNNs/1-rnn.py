@@ -10,14 +10,14 @@ def rnn(rnn_cell, X, h_0):
     rnn_cell - exactly what it sounds like
     X - input array
     h_0 - initial hidden state of shape
-    
+
     H - all hidden states
     Y - all outputs"""
 
     # Dimension extraction
     t, m, i = X.shape
     _, h = h_0.shape
-    o = rnn_cell.Wy.shape[1] # output dimensionality
+    o = rnn_cell.Wy.shape[1]  # output dimensionality
 
     # initialize hidden states and output arrays
     H = np.zeros((t + 1, m, h))
