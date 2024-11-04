@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Class construction for RNNcells"""
+'''Class construction for RNNcells'''
 import numpy as np
 
 
