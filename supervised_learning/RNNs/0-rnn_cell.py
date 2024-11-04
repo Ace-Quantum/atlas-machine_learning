@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
-
-
-import numpy as np
-
 """Class construction for RNNcells"""
+import numpy as np
 
 
 class RNNCell:
