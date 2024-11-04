@@ -27,7 +27,7 @@ def rnn(rnn_cell, X, h_0):
     H[0] = h_0
 
     # forward prop per time step
-    # I'm kind of weirdly tired of these 
+    # I'm kind of weirdly tired of these
     #   ultra compressed variables that are passed in
     # I guess it makes sense though
     # From a readability stand point
