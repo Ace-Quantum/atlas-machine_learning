@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """Behold, documentation"""
 
 import numpy as np
