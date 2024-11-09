@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# This code was made with this tutorial
+# https://www.kaggle.com/code/someadityamandal/bitcoin-time-series-forecasting/notebook
 
 import numpy as np
 import pandas as pd
@@ -27,4 +29,17 @@ data = pd.read_csv('./data/coinbaseUSD.csv', parse_dates=[0], date_parser=datepa
 
 # data.info()
 
-data.head()
+# print(data.head())
+
+data['Volume_(BTC)'].fillna(value=0, inplace=True)
+data['Volume_(Currency)'].fillna(value=0, inplace=True)
+data['Weighted_Price'].fillna(value=0, inplace=True)
+
+data['Open'].fillna(method='ffill', inplace=True)
+data['High'].fillna(method='ffill', inplace=True)
+data['Low'].fillna(method='ffill', inplace=True)
+data['Close'].fillna(method='ffill', inplace=True)
+
+# print(data.head())
+
+
