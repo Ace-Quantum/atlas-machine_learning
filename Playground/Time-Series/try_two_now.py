@@ -107,9 +107,13 @@ layout = dict(
 )
 # Okay that was NOT fun to type
 # Is there an easier way or is that just how formatting is?
+# I'll take a look when I get there I suppose
 
 data = [trace1, trace2, trace3]
 fig = dict(data=data, layout=layout)
 iplot(fig, filename = "time series ranger")
 
 # fig.show()
+
+# I think this may mean that I need to use jupyter notebooks, 
+# so I'll start by watching a tutorial on that.
