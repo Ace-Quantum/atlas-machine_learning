@@ -8,7 +8,7 @@ def deep_rnn(rnn_cells, X, h_0):
     """Looks like we're using the same RNN cells as before
     which is kinda interesting ngl"""
 
-    t, m, _ = X.shape
+    t, m, i = X.shape
     l, _, h = h_0.shape
 
     H = np.zeros((t + 1, l, m, h))
@@ -21,11 +21,14 @@ def deep_rnn(rnn_cells, X, h_0):
         h_prev = H[time]
 
         for layer in range(l):
-            h_prev[layer], y_t = rnn_cells[layer].forward(h_prev[layer], x_t)
-            x_t = h_prev[layer]
+            rnn_cell = rnn_cells[layer]
+            h_prev_layer = h_prev[layer]
 
-        H[time + 1] = h_prev
-        Y.append(y_t)
+            h_next, y = rnn_cell.forward(h_prev_layer, x_t)
+
+            H[time + 1, layer] = h_next
+
+            x_t = h_next
 
     Y = np.array(Y)
 
