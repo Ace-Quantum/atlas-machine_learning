@@ -37,4 +37,21 @@ class LSTMCell:
 
     def forward(self, h_prev, c_prev, x_t):
         """forward propogation"""
-        return None
+        f = np.tanh(
+            np.dot(self.Wf, x_t) + self.bf + np.dot(
+                self.Wu, h_prev) + self.bu
+        )
+
+        i = np.sigmoid(np.dot(
+            self.Wc, x_t) + self.bc + np.dot(
+                self.Wo, h_prev) + self.bo
+        )
+
+        c_next = f * c_prev + i * np.tanh(np.dot(self.Wy, h_prev) + self.by)
+
+        h_next = np.tanh(c_next)
+        y = np.dot(self.Wy, h_next) + self.by
+
+        return h_next, c_next, y
+
+
