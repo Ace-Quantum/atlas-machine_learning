@@ -14,7 +14,7 @@ class LSTMCell:
         i - data dim
         h - hidden state dim
         o - output dim"""
-        
+
         # forgor gate params
         self.Wf = np.random.normal(size=(i + h, h))
         self.bf = np.zeros((1, h))
@@ -53,5 +53,3 @@ class LSTMCell:
         y = np.dot(self.Wy, h_next) + self.by
 
         return h_next, c_next, y
-
-
