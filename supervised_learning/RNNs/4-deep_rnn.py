@@ -12,8 +12,8 @@ def deep_rnn(rnn_cells, X, h_0):
     l = len(rnn_cells)
     h = h_0.shape[1]
 
-    H = np.zeroes((t, l, m, h))
-    Y = np.zeroes((t, m, l))
+    H = np.zeros((t, l, m, h))
+    Y = np.zeros((t, m, l))
 
     for t_count in range(t):
         x_t = X[t_count]
