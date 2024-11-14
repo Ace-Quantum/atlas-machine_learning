@@ -20,7 +20,7 @@ def deep_rnn(rnn_cells, X, h_0):
 
         h_next = h_0[:, :, 0]
         for layer, cell in enumerate(rnn_cells):
-            h_next, y = cell.forward(h_next, None, x_t)
+            h_next, y = cell.forward(h_next, x_t)
 
             H[t_count, layer] = h_next
             Y[t_count, :, layer] = y
