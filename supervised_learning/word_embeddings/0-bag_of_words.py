@@ -23,6 +23,8 @@ def bag_of_words(sentences, vocab=None):
     #       Idk what to do with vocab yet.
     vectorizer.fit(raw_documents=sentences)
     
+    ret_array = vectorizer.transform(sentences)
+
     # Wtf does this do
     # Where the hecky becky am I supposed to use the vocab parameter
     # Seriously where
@@ -30,14 +32,16 @@ def bag_of_words(sentences, vocab=None):
     #   This is one of those fun little things
     #   That would print something in a notebook
     #   But not in a basic python script
-    print(vectorizer.vocabulary_)
+    # print(vectorizer.vocabulary_)
+    # print(ret_array.toarray())
+    # ^^^ that was it
 
     # Just try it Ace
     # Stop overthinking it
     #   We're going to the playground
 
-    print(vectorizer)
-    return(None, None)
+    # print(vectorizer)
+    return(ret_array.toarray(), vectorizer.get_feature_names_out())
 
 
     
