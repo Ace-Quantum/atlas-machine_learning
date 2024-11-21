@@ -5,24 +5,25 @@ Props to that person for making a tutorial"""
 
 from sklearn.feature_extraction.text import CountVectorizer
 
+
 def bag_of_words(sentences, vocab=None):
     """Sentences - list of sentences to organize
     Vocab - words to use for analysis
-    
+
     returns embeddings (# of sentences, # of features analyzed)
     features - a list of features used for embeddings"""
 
     # Who even knows how this actually works
     # Fail fast fail often
     # Until you're mentally broken
-    vectorizer = CountVectorizer()
+    vectorizer = CountVectorizer(vocabulary=vocab)
 
     # I *think* this is just fitting an already made model, yeah?
     #   Oh it is definitely not that.
     #   Pretty sure at least
     #       Idk what to do with vocab yet.
     vectorizer.fit(raw_documents=sentences)
-    
+
     ret_array = vectorizer.transform(sentences)
 
     # Wtf does this do
@@ -41,7 +42,4 @@ def bag_of_words(sentences, vocab=None):
     #   We're going to the playground
 
     # print(vectorizer)
-    return(ret_array.toarray(), vectorizer.get_feature_names_out())
-
-
-    
+    return (ret_array.toarray(), vectorizer.get_feature_names_out())
