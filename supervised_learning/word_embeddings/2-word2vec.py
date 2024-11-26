@@ -18,4 +18,19 @@ def word2vec_model(
     workers=1,
 ):
     """I officially have no idea what I'm doing"""
-    return None
+    model = gensim.models.Word2Vec(
+        sentences,
+        vector_size=vector_size,
+        min_count=min_count,
+        window=window,
+        negative=negative,
+        cbow_mean=cbow,
+        hs=not cbow,
+        alpha=0.025,
+        min_alpha=0.001,
+        seed=seed,
+        workers=workers,
+        epochs=epochs,
+    )
+
+    return model
