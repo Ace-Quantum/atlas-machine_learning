@@ -5,6 +5,7 @@ Panicking"""
 
 import gensim
 
+
 def word2vec_model(
     sentences,
     vector_size=100,
