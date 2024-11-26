@@ -3,7 +3,7 @@
 I'm gonna slam through this the same way I do everything
 Panicking"""
 
-from gensim.test.utils import common_texts
+import gensim
 
 def word2vec_model(
     sentences,
