@@ -6,4 +6,14 @@ import tensorflow as tf
 
 def gensim_to_keras(model):
     """Here's some documentation"""
-    return None
+    
+    keyed_vectors = model.wv
+    weights = keyed_vectors.vectors
+
+    layer = tf.keras.layers.Embedding(
+        input_dim=weights.shape[0],
+        output_dim=weights.shape[1],
+        weights=[weights],
+    )
+
+    return layer
