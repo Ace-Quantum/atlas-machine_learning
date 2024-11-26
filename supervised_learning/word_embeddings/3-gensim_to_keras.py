@@ -6,7 +6,7 @@ import tensorflow as tf
 
 def gensim_to_keras(model):
     """Here's some documentation"""
-    
+
     keyed_vectors = model.wv
     weights = keyed_vectors.vectors
 
