@@ -25,7 +25,7 @@ def word2vec_model(
         window=window,
         negative=negative,
         cbow_mean=cbow,
-        hs=not cbow,
+        # hs=not cbow,
         # alpha=0.025,
         # min_alpha=0.001,
         seed=seed,
