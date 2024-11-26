@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Yep, still don't know what I'm doing"""
 
-import gensim
+import tensorflow as tf
 
 
 def gensim_to_keras(model):
