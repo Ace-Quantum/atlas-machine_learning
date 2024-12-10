@@ -31,3 +31,6 @@ class Dataset:
             "bert-base-uncased")
 
         return tokenizer_pt, tokenizer_en
+
+    def encode(self, pt, en):
+        pt_tok = self.tokenizer_pt.encode(pt.)
