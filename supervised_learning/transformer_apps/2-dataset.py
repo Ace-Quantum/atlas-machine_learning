@@ -84,6 +84,13 @@ class Dataset:
         return pt_tokens, en_tokens
     
     def tf_encode(self, pt, en):
-        pt_output, en_output = tf.py_function(self.encode(pt, en))
+        pt_output, en_output = tf.py_function(
+            self.encode,
+            inp=[pt, en],
+            Tout=[tf.int64, tf.int64]
+        )
+
+        pt_output.set_shape([None])
+        en_output.set_shape([None])
 
         return pt_output, en_output
