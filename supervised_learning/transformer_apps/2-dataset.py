@@ -34,7 +34,7 @@ class Dataset:
 
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train)
-        
+
         self.data_train = self.data_train.map(self.tf_encode)
         self.data_valid = self.data_valid.map(self.tf_encode)
 
@@ -77,7 +77,6 @@ class Dataset:
         # They need to be trained on the data passed in
         return pt_model_trained, en_model_trained
 
-
     def encode(self, pt, en):
         """Documentation"""
 
@@ -85,7 +84,7 @@ class Dataset:
         en_tokens = self.tokenizer_en.encode(en.numpy().decode("utf-8"))
 
         return pt_tokens, en_tokens
-    
+
     def tf_encode(self, pt, en):
         """Documentation"""
         pt_output, en_output = tf.py_function(
@@ -98,3 +97,4 @@ class Dataset:
         en_output.set_shape([None])
 
         return pt_output, en_output
+    
