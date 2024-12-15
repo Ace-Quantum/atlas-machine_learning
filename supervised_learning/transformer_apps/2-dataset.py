@@ -34,6 +34,9 @@ class Dataset:
 
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train)
+        
+        self.data_train = self.data_train.map(self.tf_encode)
+        self.data_valid = self.data_valid.map(self.tf_encode)
 
     def tokenize_dataset(self, data):
         """Documentation"""
@@ -84,8 +87,9 @@ class Dataset:
         return pt_tokens, en_tokens
     
     def tf_encode(self, pt, en):
+        """Documentation"""
         pt_output, en_output = tf.py_function(
-            self.encode,
+            func=self.encode,
             inp=[pt, en],
             Tout=[tf.int64, tf.int64]
         )
