@@ -97,4 +97,3 @@ class Dataset:
         en_output.set_shape([None])
 
         return pt_output, en_output
-    
