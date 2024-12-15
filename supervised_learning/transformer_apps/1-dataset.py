@@ -81,3 +81,5 @@ class Dataset:
         en_tokens = self.tokenizer_en.encode(en.numpy().decode("utf-8"))
 
         return pt_tokens, en_tokens
+    
+
