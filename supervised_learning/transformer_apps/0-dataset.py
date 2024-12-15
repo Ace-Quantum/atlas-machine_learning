@@ -27,12 +27,10 @@ class Dataset:
             "ted_hrlr_translate/pt_to_en", split="train", as_supervised=True
         )
         self.data_valid = tfds.load(
-            "ted_hrlr_translate/pt_to_en",
-            split="validation", as_supervised=True
+            "ted_hrlr_translate/pt_to_en", split="validation", as_supervised=True
         )
 
-        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
-            self.data_train)
+        self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(self.data_train)
 
     def tokenize_dataset(self, data):
         """Documentation"""
@@ -56,18 +54,17 @@ class Dataset:
             "neuralmind/bert-base-portuguese-cased"
         )
         tokenizer_en = transformers.BertTokenizerFast.from_pretrained(
-            "bert-base-uncased")
-        
+            "bert-base-uncased"
+        )
+
         vocab_size = 2**13
 
         en_model_trained = tokenizer_en.train_new_from_iterator(
-            text_iterator=en_iterator(),
-            vocab_size = vocab_size
+            text_iterator=en_iterator(), vocab_size=vocab_size
         )
 
         pt_model_trained = tokenizer_pt.train_new_from_iterator(
-            text_iterator=pt_iterator(),
-            vocab_size=vocab_size
+            text_iterator=pt_iterator(), vocab_size=vocab_size
         )
 
         # Train here somewhere I guess
