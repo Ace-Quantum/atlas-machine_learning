@@ -72,4 +72,4 @@ class Dataset:
 
         # Train here somewhere I guess
         # They need to be trained on the data passed in
-        return en_model_trained, pt_model_trained
+        return pt_model_trained, en_model_trained
