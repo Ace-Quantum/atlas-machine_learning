@@ -5,13 +5,6 @@
 # We're encouraged to use huggingface
 # Which sounds like a library based on a horror movie
 
-#   Nope, nevermind
-#   It gives us the exact ones it wants
-#   Which is the one we use
-#   In the case of using the bertuguese tokenizer that I had found
-
-#       Double nope!! It is in fact the link I had written first
-#       There was a different resource I had gotten confused with
 
 import transformers
 import tensorflow_datasets as tfds
@@ -23,6 +16,9 @@ class Dataset:
 
     def __init__(self, batch_size, max_len):
         """documentation"""
+
+        self.max_len = max_len
+        self.batch_size = batch_size
 
         self.data_train = tfds.load(
             "ted_hrlr_translate/pt_to_en", split="train", as_supervised=True
@@ -36,8 +32,8 @@ class Dataset:
         self.tokenizer_pt, self.tokenizer_en = self.tokenize_dataset(
             self.data_train)
 
-        self.data_train = self.data_train.map(self.tf_encode)
-        self.data_valid = self.data_valid.map(self.tf_encode)
+        # self.data_train = self.data_train.map(self.tf_encode)
+        # self.data_valid = self.data_valid.map(self.tf_encode)
 
         self.data_train = (
             self.data_train
