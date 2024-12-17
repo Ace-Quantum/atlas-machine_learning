@@ -19,7 +19,6 @@ def fasttext_model(
 
     model = gensim.models.FastText(
         sentences=sentences,
-        size=vector_size,
         min_count=min_count,
         window=window,
         negative=negative,
