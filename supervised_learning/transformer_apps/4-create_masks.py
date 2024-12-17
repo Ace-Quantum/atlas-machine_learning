@@ -5,6 +5,7 @@
 
 import tensorflow as tf
 
+
 def create_masks(inputs, target):
     """Creates masks"""
 
