@@ -13,6 +13,7 @@ def answer_loop(reference):
             break
         answer = answer_q(question.lower(), reference)
         # print(answer)
+        # if answer is None:
         if answer is "":
             print("A: Sorry, I do not understand your question.")
         else:
