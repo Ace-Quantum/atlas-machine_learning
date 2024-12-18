@@ -11,9 +11,9 @@ def answer_loop(reference):
         if question.lower() in ["exit", "quit", "goodbye", "bye"]:
             print("A: Goodbye")
             break
-        answer = answer_q(question, reference)
-        print(answer)
-        if answer is None:
+        answer = answer_q(question.lower(), reference)
+        # print(answer)
+        if answer is "":
             print("A: Sorry, I do not understand your question.")
         else:
             print("A:", answer)
