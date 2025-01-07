@@ -13,7 +13,8 @@ def load_frozen_lake(desc=None, map_name=None, is_slippery=False):
     description of the map for the environment
     map_name - string that is the map
     ---(????????? The assignemnt determines it to contain the map?
-    ---"map_name is either None or a string containing the pre-made map to load"
+    ---"map_name is either None
+    ------or a string containing the pre-made map to load"
     ---That's literally what it says.
     ---I'm assuming the string itself doesn't contain the map.)
     You can ignore all of that I think I got my answer
@@ -23,7 +24,10 @@ def load_frozen_lake(desc=None, map_name=None, is_slippery=False):
     Returns the environment
     """
 
-    env = gym.make("FrozenLake", desc=desc, map_name=map_name, is_slippery=is_slippery)
+    env = gym.make("FrozenLake",
+                   desc=desc,
+                   map_name=map_name,
+                   is_slippery=is_slippery)
 
     return env
 
