@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import numpy as np
-
 """We're initializing the environment
 I'm really not sure how this differs other than
 calling the function we just made,
 which only calls a different function"""
+
+import numpy as np
 
 
 def q_init(env):
