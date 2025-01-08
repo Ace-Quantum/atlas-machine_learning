@@ -3,7 +3,7 @@
 """This function will determine the next action"""
 
 import numpy as np
-import gymnasium as gym
+# import gymnasium as gym
 
 def epsilon_greedy(Q, state, epsilon):
     """chosing where the state goes from here
