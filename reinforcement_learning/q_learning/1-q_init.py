@@ -7,6 +7,7 @@ I'm really not sure how this differs other than
 calling the function we just made,
 which only calls a different function"""
 
+
 def q_init(env):
     """env is the FrozenLakeEnv instance"""
 
