@@ -26,7 +26,7 @@ def epsilon_greedy(Q, state, epsilon):
     """HOW DO I GET THE ACTION WITHOUT THE ENVIRONMENT"""
 
     if np.random.random() < epsilon:
-        action = np.random.randint(0, 3)
+        action = np.random.randint(0, 4)
     else:
         action = np.argmax(Q[state, :])
 
