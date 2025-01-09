@@ -31,13 +31,14 @@ def train(env, Q, episodes=5000, max_steps=100,
     total_rewards - list of rewards per episode"""
 
     rewards_per_episode = np.zeros(episodes)
-    step_counter = 0
 
     for i in range(episodes):
         # print(f"for loop iteration: ", i)
         state = env.reset()[0]
         terminated = False
         truncated = False
+        step_counter = 0
+
 
         # debug_counter = 0
         while(not terminated and not truncated):
@@ -52,21 +53,23 @@ def train(env, Q, episodes=5000, max_steps=100,
 
             step_counter += 1
             state = new_state
+
+            # print(f"steps taken: ", step_counter)
+            if step_counter >= max_steps:
+                break
     
         epsilon = max(epsilon - epsilon_decay, 0)
 
         if(epsilon==0):
-            alpha = 0.0001
+            alpha = min_epsilon
 
         if reward == 1:
             rewards_per_episode[i] = 1
 
-        # print(f"steps taken: ", step_counter)
-        if step_counter >= max_steps:
-            break
-
         # print(f"epsilon: ", epsilon)
-        if epsilon <= min_epsilon:
-            break
+        # if epsilon <= min_epsilon:
+            # break
+
+    env.close()
 
     return Q, rewards_per_episode
