@@ -20,14 +20,20 @@ def load_frozen_lake(desc=None, map_name=None, is_slippery=False):
     You can ignore all of that I think I got my answer
     is_slippery - is the ice slippery?
 
+    Hello it is Ace from the future
+    We now have to update this function to render the mode to "ansi"
+
 
     Returns the environment
     """
 
-    env = gym.make("FrozenLake",
-                   desc=desc,
-                   map_name=map_name,
-                   is_slippery=is_slippery)
+    env = gym.make(
+        "FrozenLake",
+        desc=desc,
+        map_name=map_name,
+        is_slippery=is_slippery,
+        render_mode="ansi",
+    )
 
     return env
 
