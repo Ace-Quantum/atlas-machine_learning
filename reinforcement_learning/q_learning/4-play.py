@@ -49,10 +49,10 @@ def play(env, Q, max_steps=100):
         if step_counter >= max_steps:
             break
 
-    if reward == 1:
-        total_reward = 1
+    # if reward == 1:
+        # total_reward = 1
     # I know that doesn't need to be that way but oh well
 
     env.close()
 
-    return total_reward, rendered_output
+    return reward, rendered_output
