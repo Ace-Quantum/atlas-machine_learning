@@ -1,21 +1,22 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 
 """This function plays trained an agent """
 
 import numpy as np
+
 
 def play(env, Q, max_steps=100):
     """Plays out the trained agent
     env - the environment in which we play
     Q - the already trained Q-table
     max_steps - Boiyo is not allowed any more steps than this
-    
-    returns 
+
+    returns
     rewards - the toal rewards for the episode
     board_states - list of rendered outputs of the board state
-    
+
     What exactly makes epsilon greedy though?
-    
+
     Also, is this just a limited version of task 3???
     I'm so confused."""
 
