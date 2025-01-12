@@ -59,6 +59,17 @@ def train(
             )
 
             step_counter += 1
+            # Behold, my attempts to print a board state for task 4.
+            # print("State: ", state)
+            # print("Env: ", env)
+            # How the HECK do I print the board????
+            # print("State: ", Q[state])
+            # Ok the instructions say that we need the board state specifically
+            # print("Board Desc: \n", env.desc) #Idk if this is even how this works
+            # Ok so that's something. Still not what we need but it's something
+            # print("Rendered BoardState: \n", env.render())
+            # I THINK that's what I need
+            
             state = new_state
 
             # print(f"steps taken: ", step_counter)
