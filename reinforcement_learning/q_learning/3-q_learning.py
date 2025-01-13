@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""This script holds a function that performs Q learning"""
+"""This script holds a function that performs Q learning
+Tutorial followed: https://www.youtube.com/watch?v=ZhoIgo3qqLU&ab_channel=JohnnyCode"""
 
 import numpy as np
 
@@ -84,11 +85,15 @@ def train(
 
         if reward == 1:
             rewards_per_episode[i] = 1
+        elif truncated or terminated:
+            rewards_per_episode[i] = -1
+        # else:
+        #     print("else")
 
         # If Boiyo fell or ran out of steps
         # Punish him
-        if (truncated or terminated) and reward != 1:
-            rewards_per_episode[i] = -1
+        # if (truncated or terminated) and reward != 1:
+            # rewards_per_episode[i] = -1
 
         # print(f"epsilon: ", epsilon)
         # if epsilon <= min_epsilon:
