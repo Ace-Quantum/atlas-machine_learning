@@ -85,6 +85,11 @@ def train(
         if reward == 1:
             rewards_per_episode[i] = 1
 
+        # If Boiyo fell or ran out of steps
+        # Punish him
+        if (truncated or terminated) and reward != 1:
+            rewards_per_episode[i] = -1
+
         # print(f"epsilon: ", epsilon)
         # if epsilon <= min_epsilon:
         # break
