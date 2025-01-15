@@ -31,3 +31,5 @@ for _ in range(100):
     action = environment.action_space.sample()
 
     state, reward, done, info = environment.step(action)
+
+    print(state.shape)
