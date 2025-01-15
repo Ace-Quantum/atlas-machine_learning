@@ -13,5 +13,21 @@ import gym
 import numpy as np
 from PIL import Image
 import torch
+from im_stronger_than_ive_been_before import *
 
-print("ran successfully")
+# print("ran successfully")
+
+# This is where we might set an os environ
+# But honestly I'm leaving it out
+# because holy heck is it actually scary
+
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
+environment = DQNBreakout(device=device, render_mode='human')
+
+state = environment.reset()
+
+for _ in range(100):
+    action = environment.action_space.sample()
+
+    state, reward, done, info = environment.step(action)
