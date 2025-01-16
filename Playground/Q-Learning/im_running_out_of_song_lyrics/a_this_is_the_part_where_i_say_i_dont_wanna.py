@@ -15,6 +15,7 @@ from PIL import Image
 import torch
 from b_im_stronger_than_ive_been_before import *
 from c_this_is_the_part_where_i_break_free import NamcoBoi
+from d_cause_i_cant_resist_it_no_more import Agent
 
 # print("ran successfully")
 
@@ -24,7 +25,7 @@ from c_this_is_the_part_where_i_break_free import NamcoBoi
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-environment = DQNBreakout(device=device, render_mode='human')
+environment = DQNBreakout(device=device)
 
 model = NamcoBoi(nb_actions=4)
 
@@ -32,9 +33,15 @@ model.to(device)
 
 model.load_the_model()
 
-state = environment.reset()
+# Will probably choose to increase the learning rate for the
+# sake of time and processing power
+# Might not change model architecture like previously noted
+# It's fairly small and simple
+agent = Agent(model=model, device=device, epsilon=1.0, nb_warmup=5000,
+                nb_actions=4, learning_rate=0.00001, memory_capacity=1000000,
+                batch_size=64)
 
-print(model.forward(state))
+agent.train(env=environment, epochs=2000000)
 
 # To be reinstated later?
 # for _ in range(100):

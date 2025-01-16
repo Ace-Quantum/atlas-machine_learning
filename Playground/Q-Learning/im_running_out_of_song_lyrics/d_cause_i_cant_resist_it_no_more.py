@@ -7,6 +7,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 from e_if_you_want_it_take_it_i_should_have_said_it_before import LivePlot
 import numpy as np
+import time
 
 class ReplayMemory:
 
@@ -78,7 +79,7 @@ class Agent:
         if torch.rand(1) < self.epsilon:
             return torch.randint(self.nb_actions, (1, 1))
         else:
-            av = self.model(state).detatch()
+            av = self.model(state).detach()
             return torch.argmax(av, dim=1, keepdim=True)
 
     def train(self, env, epochs):
@@ -90,6 +91,7 @@ class Agent:
             state = env.reset()
             done = False
             ep_return = 0
+            print(f"Epoch: {epoch}")
 
             while not done:
                 action = self.get_action(state)
@@ -109,7 +111,7 @@ class Agent:
                     # The tilda does a thing I don't fully get
                     target_b = reward_b + ~done_b * self.gamma * next_qsa_b
 
-                    loss = F.nse_loss(qsa_b, target_b)
+                    loss = F.mse_loss(qsa_b, target_b)
 
                     self.model.zero_grad()
                     loss.backward()
@@ -147,3 +149,17 @@ class Agent:
                 self.model.save_the_model(f"models/model_iter_{epoch}.pt")
 
         return stats
+
+    def test(self, env):
+        
+        for epoch in range(1, 3):
+            state = env.reset()
+
+            done = False
+
+            for _ in range(1000):
+                time.sleep(0.01)
+                action = self.get_action(state)
+                state, reward, done, info = env.step(action)
+                if done:
+                    break

@@ -6,6 +6,7 @@
 
 import torch
 import torch.nn as nn
+import os
 
 class NamcoBoi(nn.Module):
 
@@ -62,6 +63,7 @@ class NamcoBoi(nn.Module):
         # This is just the weights
         # But I think h5 files are the same
         if not os.path.exists("models"):
+            print("making path")
             os.makedirs("models")
 
         torch.save(self.state_dict(), weights_filename)
