@@ -13,8 +13,8 @@ import gym
 import numpy as np
 from PIL import Image
 import torch
-from im_stronger_than_ive_been_before import *
-from this_is_the_part_where_i_break_free import NamcoBoi
+from b_im_stronger_than_ive_been_before import *
+from c_this_is_the_part_where_i_break_free import NamcoBoi
 
 # print("ran successfully")
 
