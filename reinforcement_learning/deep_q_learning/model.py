@@ -4,6 +4,9 @@
 # consider changing the model to a smaller structure 
 # to save on some training time
 
+# Very simple model building, surprisingly easy for a library I hadn't worked much with.
+# Not too terribly much to say in the documentation, it's all architecture
+
 import torch
 import torch.nn as nn
 import os
@@ -62,6 +65,8 @@ class NamcoBoi(nn.Module):
         # Unsure if it works the same way
         # This is just the weights
         # But I think h5 files are the same
+        #   I'm gonna leave it as is
+        #   Because I know that it works
         if not os.path.exists("models"):
             print("making path")
             os.makedirs("models")

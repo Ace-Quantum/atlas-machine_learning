@@ -1,5 +1,9 @@
 This is a readme that I intend on actually (minimally) filling out
 
+You'll notice regularly in the notes that I'm constantly referencing the tutorial over and over again,
+And the idea of rewatching it to clear up my understanding of certain parts.
+It's 2.5 hours of tutorials, so I'm unsure if I'll get that done before pushing this for a grade.
+
 These are some commands you might need to run in your terminal:
 pip install gym[atari, accept-rom-license]==0.21.0
 pip install gym[atari,accept-rom-license]==0.21.0
