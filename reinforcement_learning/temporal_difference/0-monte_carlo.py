@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import numpy as np
-
 """Tbh I'm not entirely sure what we're doing here
 I understand that Monte Carlo is used for Reinforcement Learning
 And from what I can tell it does the same thing as Q Learning
@@ -10,8 +8,10 @@ Monte Carlo First Visit - David
 Here's a resource I stole from Jabulani:
 https://www.geeksforgeeks.org/monte-carlo-policy-evaluation/"""
 
-def monte_carlo(env, V, policy, episodes=5000, max_steps=100,
-                alpha=0.1, gamma=0.99):
+import numpy as np
+
+
+def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99):
     """
     env - the environment given. In this case it's the 8x8 frozen lake from Gymnasium.
     V - numpy array of shape (s,) containing the value estimate
@@ -51,7 +51,7 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100,
                 break
             state = new_state
 
-        G=0
+        G = 0
         for state, reward in reversed(episode):
             G = gamma * G + reward
             returns[state].append(G)
