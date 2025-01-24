@@ -11,9 +11,11 @@ https://www.geeksforgeeks.org/monte-carlo-policy-evaluation/"""
 import numpy as np
 
 
-def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99):
+def monte_carlo(env, V, policy, episodes=5000, max_steps=100,
+                alpha=0.1, gamma=0.99):
     """
-    env - the environment given. In this case it's the 8x8 frozen lake from Gymnasium.
+    env - the environment given. 
+    In this case it's the 8x8 frozen lake from Gymnasium.
     V - numpy array of shape (s,) containing the value estimate
     (wtf is a value estimate???)
     policy - a function which takes in a state and returns the next action.
