@@ -6,7 +6,11 @@ And from what I can tell it does the same thing as Q Learning
 But in a different way and a different result.
 Monte Carlo First Visit - David
 Here's a resource I stole from Jabulani:
-https://www.geeksforgeeks.org/monte-carlo-policy-evaluation/"""
+https://www.geeksforgeeks.org/monte-carlo-policy-evaluation/
+This is a different resource and I don't much care for it
+https://github.com/yliang725/Reinforcement-Learning-Based-on-Monte-Carlo-Method/blob/main/gym%20API%20FronzenLake8x8.ipynb
+Jabulani's last commit for task 0 is not to get stuck when it's possible
+to get the rest, so I'm going to take the advice he gave himself."""
 
 import numpy as np
 
@@ -54,6 +58,8 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100,
             state = new_state
 
         G = 0
+        # Something here is wrong but obviously 
+        # there's no way to know what the proper answer is
         for state, reward in reversed(episode):
             G = gamma * G + reward
             returns[state].append(G)
