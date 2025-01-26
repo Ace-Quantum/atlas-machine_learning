@@ -14,3 +14,25 @@ def policy(matrix, weight):
     softmax_probs = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
 
     return softmax_probs
+
+
+def policy_gradient(state, weight):
+    """Gets the montecalro policy gradient
+    Which I only kind of understand."""
+
+    action_probabilities = policy(state, weight)
+
+    action = np.random.choice(len(action_probabilities),
+                              p=action_probabilities)
+
+    gradient = np.zeros_like(weight)
+
+    for i in range(len(action_probabilities)):
+        if i == action:
+            # Aparantly this is softmax as much as the last one is.
+            gradient[:, i] = state * (1 - action_probabilities[i])
+        else:
+            # Non selected actions are negative I guess.
+            gradient[:, i] = -state * action_probabilities[i]
+
+    return action, gradient
