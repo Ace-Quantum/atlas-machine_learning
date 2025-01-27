@@ -21,18 +21,20 @@ def policy_gradient(state, weight):
     Which I only kind of understand."""
 
     action_probabilities = policy(state, weight)
+    action_probabilities = action_probabilities[0]
 
-    action = np.random.choice(len(action_probabilities),
-                              p=action_probabilities)
+    action = np.random.choice(
+        np.arrange(len(action_probabilities)), p=action_probabilities
+    )
 
     gradient = np.zeros_like(weight)
 
     for i in range(len(action_probabilities)):
         if i == action:
             # Aparantly this is softmax as much as the last one is.
-            gradient[:, i] = state * (1 - action_probabilities[i])
+            gradient[:, i] = state.flatten() * (1 - action_probabilities[i])
         else:
             # Non selected actions are negative I guess.
-            gradient[:, i] = -state * action_probabilities[i]
+            gradient[:, i] = -state.flatten() * action_probabilities[i]
 
     return action, gradient
