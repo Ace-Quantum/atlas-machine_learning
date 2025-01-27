@@ -15,8 +15,8 @@ set_seed(env, 0)
 
 weight = np.random.rand(4, 2)
 state , _ = env.reset()
-print(weight)
-print(state)
+print(f"Not your code: {weight}")
+print(f"Not your code: {state}")
 
 action, grad = policy_gradient(state, weight)
 print(action)

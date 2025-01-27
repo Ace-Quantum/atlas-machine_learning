@@ -11,7 +11,7 @@ def policy(matrix, weight):
     logits = np.dot(matrix, weight)
 
     exp_logits = np.exp(logits - np.max(logits))
-    softmax_probs = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
+    softmax_probs = exp_logits / np.sum(exp_logits, axis=0, keepdims=True)
 
     return softmax_probs
 
@@ -24,7 +24,7 @@ def policy_gradient(state, weight):
     action_probabilities = action_probabilities[0]
 
     action = np.random.choice(
-        np.arrange(len(action_probabilities)), p=action_probabilities
+        np.arange(len(action_probabilities)), p=action_probabilities
     )
 
     gradient = np.zeros_like(weight)
