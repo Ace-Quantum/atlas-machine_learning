@@ -7,11 +7,15 @@ import numpy as np
 
 
 def policy(matrix, weight):
-    """I guess all it is is a multiplication of the matrixes"""
+    """I guess all it is is a multiplication of the matrixes
+    Nope it sure as hecky becky ain't."""
     logits = np.dot(matrix, weight)
 
-    exp_logits = np.exp(logits - np.max(logits))
-    softmax_probs = exp_logits / np.sum(exp_logits, axis=0, keepdims=True)
+    if logits.ndim == 1:
+        logits = logits[np.newaxis, :]
+
+    exp_logits = np.exp(logits - np.max(logits, axis=1, keepdims=True))
+    softmax_probs = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
 
     return softmax_probs
 
