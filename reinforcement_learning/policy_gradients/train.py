@@ -4,8 +4,7 @@
 so that it becomes less stupid in a more optimal set up."""
 
 import numpy as np
-
-policy_gradient = __import__("policy_gradient").policy_gradient
+policy_gradient = __import__('policy_gradient').policy_gradient
 
 
 def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
