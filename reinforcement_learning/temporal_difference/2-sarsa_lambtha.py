@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 
 """This might be the only thing I find a how-to on
-And I don't actually think it's a how to."""
+And I don't actually think it's a how to.
+Well Idk which how to that one I was thinking was
+But here's a different one:
+https://github.com/moripiri/Reinforcement-Learning-on-FrozenLake/blob/master/Chapter5.ipynb"""
 
 
 def sarsa_lambtha(
     env,
     G,
     lambtha,
-    epissodes=5000,
+    episodes=5000,
     max_steps=100,
     alpha=0.1,
     gamma=0.99,
@@ -27,4 +30,5 @@ def sarsa_lambtha(
     min_epsilon - value of garunteed random
     epsilon decay - how fast we'll let epsilon decay
     returns an updated q table."""
-    return
+    
+    
