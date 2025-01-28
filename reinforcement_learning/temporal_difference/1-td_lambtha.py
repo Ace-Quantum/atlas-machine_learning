@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import numpy as np
-
 """I'm honestly still not sure what we're doing here
 I'm frustrated I waited so long
 And I'm frustrated office hours aren't available this week
@@ -10,10 +8,10 @@ method to use for monte carlo
 Which is theorhetically (sp?) what we're going to have to use
 in the next project."""
 
+import numpy as np
 
 def td_lambtha(
-    env, V, policy, lambtha, episodes=5000,
-    max_steps=100, alpha=0.1, gamma=0.99
+    env, V, policy, lambtha, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99
 ):
     """Here's some variables I guess.
     env - the environment
