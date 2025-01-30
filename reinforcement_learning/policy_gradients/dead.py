@@ -4,16 +4,7 @@
 so that it becomes less stupid in a more optimal set up.
 Honestly I'm thinking of just following this tutorial
 and saying F it? I'm not sure how I'll impliment the policy gradient.
-https://www.janisklaise.com/post/rl-policy-gradients/
-That tutorial proved to be relatively useless.
-https://www.youtube.com/watch?v=5eSh5F8gjWU
-This one seems to be more useful.
-Oh???? This stack overflow looks promising
-https://stackoverflow.com/questions/46597809/policy-gradient-methods-for-open-ai-gym-cartpole
-Nevermind ignore that one
-https://github.com/drozzy/reinforce/blob/main/reinforce.py
-Ok here's that youtuber's github.
-"""
+https://www.janisklaise.com/post/rl-policy-gradients/"""
 
 import numpy as np
 policy_gradient = __import__('policy_gradient').policy_gradient
@@ -28,16 +19,11 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
     alpha - learning rate
     gamma - discount factor"""
 
-    # Initializing weights
-    # Or trying to rather
-    weights = np.random.rand(4)
     episode_rewards = []
 
     for i in range(nb_episodes):
 
-        # I believe this for loop is for a single episode
-        # Or it should be at least
-
+        # Running a single episode
         observation = env.reset()
         totalreward = 0
 
@@ -49,15 +35,31 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
         done = False
 
         while not done:
-            # So here's where we fill the table I suppose?
-            # Fingers crossed at least
 
             observations.append(observation)
+            action, prob = policy_gradient(observation)
+            observation, reward, done, info = env.step(action)
 
-            action, prob = policy_gradient(observation, weights)
+            totalreward += reward
+            rewards.append(reward)
+            actions.append(action)
+            probs.append(prob)
 
-            print(f"here's the action: {action}")
-            print(f"here's the observation: {observation}")
-            
+        rewards = np.array(rewards)
+        observations = np.array(observations)
+        actions = np.array(actions)
+        probs = np.array(probs)
 
+        episode_rewards.append(totalreward)
 
+        # Update the policy
+        # This is what makes this robot less stupid 
+        # than one that just uses Q learning.
+        # In my understanding
+        # Status update
+        # How the FRICK do I update a policy???
+        # Do I just maybe run and print?? 
+        # The worst that happens is that it doesn't work I guess
+        print(f"Episode: {i} Score: {totalreward}")
+
+    return totalreward
