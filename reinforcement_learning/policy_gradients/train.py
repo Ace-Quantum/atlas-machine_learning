@@ -19,7 +19,7 @@ import numpy as np
 policy_gradient = __import__('policy_gradient').policy_gradient
 
 
-def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
+def train(env, nb_episodes, alpha=0.000045, gamma=0.98, show_results=False):
     """I'm *pretty* sure that we're not training a full model here
     Just filling out the Q table
     Unless it's not the Q table anymore?
@@ -34,30 +34,11 @@ def train(env, nb_episodes, alpha=0.000045, gamma=0.98):
     episode_rewards = []
 
     for i in range(nb_episodes):
-
-        # I believe this for loop is for a single episode
-        # Or it should be at least
-
-        observation = env.reset()
-        totalreward = 0
-
-        observations = []
-        actions = []
-        rewards = []
-        probs = []
-
         done = False
 
+        actions = []
+        states = []
+        rewards = []
+
         while not done:
-            # So here's where we fill the table I suppose?
-            # Fingers crossed at least
-
-            observations.append(observation)
-
-            action, prob = policy_gradient(observation, weights)
-
-            print(f"here's the action: {action}")
-            print(f"here's the observation: {observation}")
-            
-
 
