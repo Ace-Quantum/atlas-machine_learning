@@ -4,7 +4,8 @@
 And I don't actually think it's a how to.
 Well Idk which how to that one I was thinking was
 But here's a different one:
-https://github.com/moripiri/Reinforcement-Learning-on-FrozenLake/blob/master/Chapter5.ipynb"""
+https://github.com/moripiri/
+Reinforcement-Learning-on-FrozenLake/blob/master/Chapter5.ipynb"""
 
 import numpy as np
 
@@ -54,7 +55,8 @@ def sarsa_lambtha(
             else:
                 next_action = np.argmax(Q[next_state])
 
-            td_error = reward + gamma * Q[next_state][next_action] - Q[state][action]
+            td_error = reward + gamma * Q[
+                next_state][next_action] - Q[state][action]
 
             eligibility_traces[state][action] += 1
 
