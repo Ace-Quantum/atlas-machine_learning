@@ -13,6 +13,12 @@ https://stackoverflow.com/questions/46597809/policy-gradient-methods-for-open-ai
 Nevermind ignore that one
 https://github.com/drozzy/reinforce/blob/main/reinforce.py
 Ok here's that youtuber's github.
+
+I'll be honest Sajid, I circled around this task quite a bit
+I have a vague understanding of the concepts, but I think I have to take the L on this task
+You can see a previous attempt under "dead.py"
+These projects were pretty dense, I regret procrastinating
+But I think I did fairly well all things considered.
 """
 
 import numpy as np
