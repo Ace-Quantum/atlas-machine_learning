@@ -6,7 +6,6 @@ https://www.tensorflow.org/api_docs/python/tf/image/adjust_contrast
 Ok so not quite, I do have to make a random number."""
 
 import tensorflow as tf
-# import numpy as np
 
 
 def change_contrast(image, lower, upper):
