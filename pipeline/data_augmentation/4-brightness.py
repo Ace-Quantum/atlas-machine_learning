@@ -9,4 +9,4 @@ import tensorflow as tf
 
 def change_brightness(image, max_delta):
     """Changes Brightness of an image"""
-    return tf.image.adjust_brightness(image, max_delta)
+    return tf.image.random_brightness(image, max_delta)
