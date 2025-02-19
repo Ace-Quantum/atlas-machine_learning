@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""imports a numpy array and returns it as a pandas array"""
+"""takes a numpy array and returns it as a pandas array"""
 
 import pandas as pd
 
