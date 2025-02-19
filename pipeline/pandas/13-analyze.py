@@ -7,6 +7,6 @@ Let's hope that they're not worth too much"""
 def analyze(df):
     """computes descriptive statistics for columns"""
 
-    stats = df.describe(exclude=['Timestamp'])
+    stats = df.describe()
 
     return stats
