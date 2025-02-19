@@ -13,7 +13,7 @@ def concat(df1, df2):
     df1 = df1.set_index('Timestamp')
     df2 = df2.set_index('Timestamp')
 
-    df2 = df2.truncate(after=1417411920)
+    # df2 = df2.truncate(after=1417411920)
 
     df_concat = pd.concat([df2, df1])
 
