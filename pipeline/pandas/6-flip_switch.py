@@ -2,8 +2,6 @@
 
 """flip and switch"""
 
-import pandas as pd
-
 
 def flip_switch(df):
     """sort in reverse chronological and then transpose"""
