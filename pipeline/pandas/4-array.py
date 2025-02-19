@@ -2,8 +2,6 @@
 
 """Takes the tail of a df and makes it a numpy array"""
 
-import pandas as pd
-
 def array(df):
 
     df_tail_sample = df[['High', 'Close']]
