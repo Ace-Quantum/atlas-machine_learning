@@ -4,7 +4,7 @@
 
 def array(df):
 
-    df_tail_sample = df[['High', 'Close']]
+    df_tail_sample = df[["High", "Close"]]
 
     df_tail_sample = df.tail(n=10)
 
