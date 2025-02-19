@@ -8,6 +8,6 @@ def array(df):
 
     df_tail_sample = df(n=10)
 
-    np_array = df_tail_sample.to_numpy
+    np_array = df_tail_sample.to_numpy()
 
     return np_array
