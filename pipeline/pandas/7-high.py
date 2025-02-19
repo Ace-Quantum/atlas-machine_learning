@@ -4,6 +4,7 @@
 
 
 def high(df):
+    """Would be first try if I rememberd this"""
 
     df_sort = df.sort_values(by=["High"], ascending=False)
 
