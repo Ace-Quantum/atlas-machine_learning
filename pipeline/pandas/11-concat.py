@@ -12,11 +12,11 @@ def concat(df1, df2):
     I changed it because I thought that might be the issue
     The frame isn't even loading"""
 
-    # df1 = index(df1)
-    # df2 = index(df2)
+    df1 = index(df1)
+    df2 = index(df2)
 
-    # df2 = df2.truncate(after=1417411920)
+    df2 = df2.truncate(after=1417411920)
 
-    # df_concat = pd.concat([df2, df1])
+    df_concat = pd.concat([df2, df1])
 
-    return df2
+    return df_concat
