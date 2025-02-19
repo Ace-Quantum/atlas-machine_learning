@@ -7,7 +7,7 @@ after the preprocessing paper project"""
 def fill(df):
     """fills in values"""
 
-    df_filled = df.drop(['Weighted_Price'])
+    df_filled = df.drop('Weighted_Price')
 
     # df_filled.loc[:, ['Close']] = df_filled.loc[:, ['Close']].ffill()
 
