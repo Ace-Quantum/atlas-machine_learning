@@ -8,6 +8,6 @@ def flip_switch(df):
 
     df_flip_switch = df.sort_values(ascending=False)
 
-    df_flip_switch = df_flip_switch.transpose()
+    df_flip_switch = df_flip_switch.T
 
     return df_flip_switch
