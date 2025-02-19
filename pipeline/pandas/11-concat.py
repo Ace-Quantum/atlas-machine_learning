@@ -13,9 +13,9 @@ def concat(df1, df2):
     The frame isn't even loading"""
 
     # df1 = index(df1)
-    df2 = index(df2)
+    # df2 = index(df2)
 
-    df2 = df2.truncate(after=1417411920)
+    # df2 = df2.truncate(after=1417411920)
 
     # df_concat = pd.concat([df2, df1])
 
