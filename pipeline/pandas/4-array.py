@@ -2,7 +2,9 @@
 
 """Takes the tail of a df and makes it a numpy array"""
 
+
 def array(df):
+    """Lots of trial and error but we got there"""
 
     df_tail_sample = df[["High", "Close"]]
 
