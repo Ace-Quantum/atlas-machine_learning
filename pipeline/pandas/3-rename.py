@@ -13,6 +13,6 @@ def rename(df):
 
     df_return['Datetime'] = pd.to_datetime(df_return['Datetime'])
 
-    df_return = df_return['Datetime', 'Close']
+    df_return = df_return[['Datetime', 'Close']]
 
     return(df_return)
