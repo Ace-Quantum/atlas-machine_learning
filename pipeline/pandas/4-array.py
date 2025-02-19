@@ -4,9 +4,9 @@
 
 def array(df):
 
-    df_tail_sample = df[['High', 'Close']]
+    # df_tail_sample = df[['High', 'Close']]
 
-    df_tail_sample = df_tail_sample.tail(n=10)
+    df_tail_sample = df(n=10)
 
     np_array = df_tail_sample.to_numpy
 
