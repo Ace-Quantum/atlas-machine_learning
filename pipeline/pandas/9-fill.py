@@ -11,7 +11,7 @@ def fill(df):
 
     df_filled.loc[:, ['Close']] = df_filled.loc[:, ['Close']].ffill()
 
-    df_filled[['High', 'Low', 'Open']] = df_filled[['High', 'Low', 'Open']].fillna(df_filled['Close'])
+    df_filled['High'] = df_filled['High'].fillna(df_filled['Close'])
 
     # df_filled[['Volume_(BTC)', 'Volume_(Currency)']] = df_filled[[
         # 'Volume_(BTC)', 'Volume_(Currency)']].fillna(value=0)
