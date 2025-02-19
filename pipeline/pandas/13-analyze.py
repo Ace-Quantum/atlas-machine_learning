@@ -9,6 +9,6 @@ def analyze(df):
 
     df_stats = df.drop('Timestamp', axis=1)
 
-    stats = df.describe()
+    stats = df_stats.describe()
 
     return stats
