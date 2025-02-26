@@ -20,12 +20,15 @@ def availableShips(passengerCount):
         response = requests.get(url)
         data = response.json()
 
-        for ship in data['results']:
-            passengers = int(ship['passengers'].replace(',', ''))
+        for ship in data["results"]:
+            try:
+                passengers = int(ship["passengers"].replace(",", ""))
+            except ValueError:
+                passengers = 0
 
         if passengers >= passengerCount:
-            ret_list.append(ship['name'])
+            ret_list.append(ship["name"])
 
-        url = data['next']
+        url = data["next"]
 
     return ret_list
