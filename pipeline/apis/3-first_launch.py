@@ -31,8 +31,7 @@ def fetch_first_launch():
 
     launch_name = first_launch["name"]
     launch_date = first_launch["date_local"]
-    output = f"{launch_name} ({launch_date}) {rocket_name} - {
-        launchpad_name} ({launchpad_locality})"
+    output = f"{launch_name} ({launch_date}) {rocket_name} - {launchpad_name} ({launchpad_locality})"
     
     return output
 
