@@ -6,6 +6,7 @@ import sys
 import requests
 from datetime import datetime
 
+
 def get_user_location(url):
     """finds a user"""
     response = requests.get(url)
@@ -16,9 +17,7 @@ def get_user_location(url):
     elif response.status_code == 404:
         return "Not found"
     elif response.status_code == 403:
-        reset_timestamp = int(response.headers.get(
-            "X-Ratelimit-Reset", 0
-        ))
+        reset_timestamp = int(response.headers.get("X-Ratelimit-Reset", 0))
 
         reset_time = datetime.fromtimestamp(reset_timestamp)
         current_time = datetime.now()
@@ -26,7 +25,8 @@ def get_user_location(url):
         return f"Reset in {minutes_until_reset} min"
     else:
         return f"Unexpected status code: {response.status_code}"
-    
+
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: ./2-user_location.py <GitHub API URL>")
