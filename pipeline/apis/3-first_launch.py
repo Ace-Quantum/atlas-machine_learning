@@ -2,3 +2,40 @@
 
 """I'm not sure why we're even entertaining
 the thought of SpaceX but here we are"""
+
+import requests
+
+def fetch_first_launch():
+    """Seriously why are we using the spacex api"""
+
+    launches_url = "https://api.spacexdata.com/v5/launches"
+
+    response = requests.get(launches_url)
+    launches = response.json()
+
+    launches.sort(key=lambda x: x["date_unix"])
+
+    first_launch = launches["rocket"]
+    
+    rocket_id = first_launch["rocket"]
+    rocket_url = f"https://api.spacexdata.com/v4/rockets/{rocket_id}"
+    rocket_response = requests.get(rocket_url)
+    rocket_name = rocket_response.json()["name"]
+
+    launchpad_id = first_launch["launchpad"]
+    launchpad_url = f"https://api.spacexdata.com/v4/launchpads/{launchpad_id}"
+    launchpad_response = requests.get(launchpad_url)
+    launchpad_data = launchpad_response.json()
+    launchpad_name = launchpad_data["name"]
+    launchpad_locality = launchpad_data["locality"]
+
+    launch_name = first_launch["name"]
+    launch_date = first_launch["date_local"]
+    output = f"{launch_name} ({launch_date}) {rocket_name} - {
+        launch_name} ({launchpad_locality})"
+    
+    return output
+
+if __name__ == "__main__":
+    result = fetch_first_launch()
+    print(result)
