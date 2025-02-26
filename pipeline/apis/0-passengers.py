@@ -24,11 +24,9 @@ def availableShips(passengerCount):
             try:
                 passengers = int(ship["passengers"].replace(",", ""))
                 ship_name = ship["name"]
-                # print(f"{ship_name} has {passengers} available for transport")
             except ValueError:
                 # ship_name = ship["name"]
                 passengers = ship["passengers"].replace(",", "")
-                # print(f"{ship_name} does not have room. Passengers: {passengers}")
                 passengers = 0
 
             if passengers >= passengerCount:
