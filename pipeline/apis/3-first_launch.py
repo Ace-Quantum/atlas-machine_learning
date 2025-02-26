@@ -15,7 +15,7 @@ def fetch_first_launch():
 
     launches.sort(key=lambda x: x["date_unix"])
 
-    first_launch = launches["rocket"]
+    first_launch = launches[0]
     
     rocket_id = first_launch["rocket"]
     rocket_url = f"https://api.spacexdata.com/v4/rockets/{rocket_id}"
