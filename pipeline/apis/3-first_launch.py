@@ -32,10 +32,11 @@ def fetch_first_launch():
     launch_name = first_launch["name"]
     launch_date = first_launch["date_local"]
     output = f"{launch_name} ({launch_date}) {rocket_name} - {
-        launch_name} ({launchpad_locality})"
+        launchpad_name} ({launchpad_locality})"
     
     return output
 
 if __name__ == "__main__":
+    """Run it"""
     result = fetch_first_launch()
     print(result)
