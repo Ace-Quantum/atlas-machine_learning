@@ -1,0 +1,1 @@
+-- list all genres and the number of shows that fall under them

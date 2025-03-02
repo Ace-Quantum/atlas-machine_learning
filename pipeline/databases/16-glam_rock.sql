@@ -1,0 +1,1 @@
+-- pull all bands considered glam rock and organize them

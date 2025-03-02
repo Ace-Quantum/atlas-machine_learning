@@ -1,0 +1,1 @@
+-- records all records with a score >= 10 in a second table

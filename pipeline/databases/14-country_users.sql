@@ -1,0 +1,2 @@
+-- creates the table "user" which probably 
+-- should have happened before that last one

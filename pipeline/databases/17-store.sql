@@ -1,0 +1,3 @@
+-- This task is telling me to let MySQL handle the deletion of data
+-- Not sure how
+-- Does it just like... automatically happen?

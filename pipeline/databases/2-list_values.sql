@@ -1,0 +1,1 @@
+-- lists all the rows of a table
