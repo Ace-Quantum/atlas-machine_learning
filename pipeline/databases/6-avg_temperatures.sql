@@ -5,4 +5,5 @@
 -- So that's annoying
 
 SELECT city, AVG(value) as avg_temp
-FROM temperatures;
+FROM temperatures
+GROUP BY city;
