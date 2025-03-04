@@ -3,4 +3,4 @@
 SELECT title, rate
 -- Rating = SUM(tv_show_ratings)
 FROM tv_shows;
-INNER JOIN tv_show_ratings ON tv_show_ratings.show_id=tv_shows.id;
+JOIN tv_show_ratings ON tv_show_ratings.show_id=tv_shows.id;
