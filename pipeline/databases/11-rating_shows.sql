@@ -1,4 +1,4 @@
--- Annnnd now we're downloading the rotten tomatoes database
+-- Annnnd now we're downloading the rotten tomatoes database 
 
 SELECT tv_shows.title, tv_show_ratings.rate
 FROM tv_shows
