@@ -1,6 +1,6 @@
 -- script that creates a table of users
 
-DROP TABLE IF EXISTS 'users';
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id int NOT NULL AUTO_INCREMENT,
