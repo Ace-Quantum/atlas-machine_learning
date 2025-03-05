@@ -2,4 +2,4 @@
 
 SELECT metal_bands.origin, SUM(metal_bands.fans) as nb_fans
 FROM metal_bands
-GROUP BY name;
+GROUP BY origin;
