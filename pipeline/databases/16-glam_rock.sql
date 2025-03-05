@@ -6,5 +6,5 @@ SELECT band_name
 -- ELSE split - formed
 -- END AS `lifespan until 2020 (in years)`
 FROM metal_bands
-WHERE style = '%Glam rock%';
+WHERE style = 'Glam rock';
 -- ORDER BY `lifespan until 2020 (in years)` DESC; 
