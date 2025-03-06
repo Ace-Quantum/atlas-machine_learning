@@ -7,4 +7,8 @@ from pymongo import MongoClient
 
 def schools_by_topic(mongo_collection, topic):
     """This is taking a literal hour of set up"""
-    return None
+    query = {"topics": {"$in": [topic]}}
+
+    schools = list(mongo_collection.find(query))
+
+    return schools
