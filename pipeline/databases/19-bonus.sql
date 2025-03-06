@@ -1,5 +1,7 @@
 -- adds a "new correction" whatever that means
 
+DELIMITER //
+
 CREATE PROCEDURE addbonus(
     IN user_id INT,
     IN project_name VARCHAR(255),
