@@ -60,7 +60,7 @@ class NamcoBoi(nn.Module):
 
         return output
 
-    def save_the_model(self, weights_filename='models/latest.pt'):
+    def save_the_model(self, weights_filename='./models/latest.pt'):
         # This is going to need to be an H5 file for the final piece
         # Unsure if it works the same way
         # This is just the weights
@@ -73,7 +73,7 @@ class NamcoBoi(nn.Module):
 
         torch.save(self.state_dict(), weights_filename)
 
-    def load_the_model(self, weights_filename='models/latest.pt'):
+    def load_the_model(self, weights_filename='./models/latest.pt'):
         try:
             self.load_state_dict(torch.load(weights_filename))
             print(f"Successfully loaded weights file {weights_filename}")
