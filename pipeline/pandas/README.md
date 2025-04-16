@@ -1,0 +1,1 @@
+This course will (hopefully) be easier than last course
